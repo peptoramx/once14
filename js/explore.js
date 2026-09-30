@@ -12,6 +12,8 @@
   cards.forEach(card=>{const match=(filter==='all'||groups[filter].includes(card.id))&&words.every(w=>terms.get(card.id).includes(w));card.hidden=!match;if(match){count++;card.classList.add('visible');}else if(card.classList.contains('open'))openService(card,false);});
   filters.forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.filter===filter)));
   const en=document.documentElement.lang==='en';
+  search.placeholder=en?'Search services: capital, cash flow, investment':'Buscar servicios: capital, flujo, inversión';
+  galleryButtons.forEach(btn=>btn.setAttribute('aria-label',Number(btn.dataset.galleryDirection)<0?(en?'Previous image':'Imagen anterior'):(en?'Next image':'Imagen siguiente')));
   results.textContent=count ? (en?count+' services available':count+' servicios disponibles') : (en?'No matches. Try another term or clear the filters.':'Sin coincidencias. Pruebe otro término o limpie los filtros.');
   reset.hidden=filter==='all'&&!search.value;
  }
@@ -48,12 +50,14 @@
  gallery.addEventListener('scroll',galleryState,{passive:true});window.addEventListener('resize',galleryState);galleryState();
  document.querySelectorAll('[data-media]').forEach(frame=>{
   const item=window.ONCE14_MEDIA?.[frame.dataset.media];if(!item?.ready)return;
-  const image=new Image();image.width=1200;image.height=900;image.decoding='async';image.loading=frame.dataset.media==='consulting'?'eager':'lazy';
+  const image=frame.querySelector('img')||new Image();image.width=1200;image.height=900;image.decoding='async';image.loading=frame.dataset.media==='consulting'?'eager':'lazy';
   image.style.objectPosition=item.position;image.alt=document.documentElement.lang==='en'?item.en:item.es;
   image.sizes=frame.dataset.media==='consulting'?'100vw':'(max-width: 700px) 90vw, 50vw';image.srcset='assets/editorial/'+item.file+'-640.webp 640w, assets/editorial/'+item.file+'-1200.webp 1200w'+(frame.dataset.media==='consulting'?', assets/editorial/consulting-1600.webp 1600w':'');
   if(frame.dataset.media==='consulting')image.fetchPriority='high';
-  image.addEventListener('load',()=>{frame.hidden=false;frame.classList.add('media-loaded');frame.querySelector('.media-caption').hidden=false;if(frame.closest('.gallery-track')&&[...gallery.querySelectorAll('[data-media]')].every(el=>el.classList.contains('media-loaded')))document.querySelector('.gallery-pending').hidden=true;});
-  image.addEventListener('error',()=>{image.remove();frame.classList.remove('media-loaded');frame.querySelector('.media-caption').hidden=true;if(frame.classList.contains('activity-media'))frame.hidden=true;});
+  const showImage=()=>{frame.hidden=false;frame.classList.add('media-loaded');};
+  image.addEventListener('load',showImage);
+  if(image.complete&&image.naturalWidth)showImage();
+  image.addEventListener('error',()=>{frame.classList.remove('media-loaded');});
   image.src='assets/editorial/'+item.file+'-1200.webp';frame.prepend(image);loaded.push({image,item});
  });
  document.addEventListener('once14:language',()=>{applyFilters();loaded.forEach(({image,item})=>image.alt=document.documentElement.lang==='en'?item.en:item.es);});
