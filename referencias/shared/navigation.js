@@ -1,0 +1,2 @@
+'use strict';
+(()=>{const header=document.querySelector('.top');if(!header)return;const size=()=>document.documentElement.style.setProperty('--case-header-height',Math.ceil(header.getBoundingClientRect().height)+'px');new ResizeObserver(size).observe(header);size();window.addEventListener('hashchange',()=>requestAnimationFrame(()=>document.querySelector('.view:not([hidden])')?.scrollIntoView({block:'start',behavior:'instant'})));})();
