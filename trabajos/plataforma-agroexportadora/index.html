@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plataforma agroexportadora · Trabajo anonimizado | ONCE14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#1E3B21; --navy-deep:#0C2010; --crimson:#C1541D; --gold:#D98C1F;
+    --azure:#6E9B3B; --paper:#FBF6E7; --paper-alt:#F2E1C4; --ink:#221C13; --line:rgba(30,59,33,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-user-select:none; user-select:none; line-height:1.7; font-size:15px;}
+  ::selection{background:transparent;}
+  .marca-agua{position:fixed; inset:0; pointer-events:none; z-index:999; overflow:hidden; opacity:0.045;}
+  .marca-agua span{position:absolute; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:13px; letter-spacing:3px; color:var(--navy); transform:rotate(-24deg);}
+
+  .idbar{background:var(--navy-deep); color:#CFC9AE; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; display:flex; justify-content:space-between; padding:8px 8vw; flex-wrap:wrap; gap:6px;}
+  .idbar strong{color:var(--gold); font-weight:500;}
+
+  /* ---------- NAV : sticky glass rail with underline indicator ---------- */
+  nav{position:sticky; top:0; z-index:100; background:rgba(251,249,241,0.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:var(--navy); display:flex; gap:2px; overflow-x:auto; padding:0 8vw; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.03em; font-weight:500; border-bottom:1px solid var(--line);}
+  nav a{color:#4B5A46; text-decoration:none; white-space:nowrap; padding:16px 14px; display:inline-block; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .18s ease, border-color .18s ease;}
+  nav a:hover, nav a:focus-visible{color:var(--navy); border-bottom-color:var(--gold); outline:none;}
+  nav a.active{color:var(--navy); border-bottom-color:var(--crimson); font-weight:600;}
+
+  /* ---------- HERO : editorial split, restrained ornament ---------- */
+  header.hero{background:radial-gradient(130% 160% at 88% -8%, rgba(217,140,31,0.38) 0%, rgba(217,140,31,0) 42%), radial-gradient(120% 150% at 12% 0%, #2C4F2F 0%, var(--navy) 55%, var(--navy-deep) 100%); color:#F3F1E6; padding:96px 8vw 68px; position:relative; overflow:hidden;}
+  header.hero::after{content:""; position:absolute; right:-14%; top:-24%; width:560px; height:560px; border-radius:50%; border:1px solid rgba(243,241,230,0.08);}
+  header.hero::before{content:""; position:absolute; right:4%; top:10%; width:360px; height:360px; border-radius:50%; border:1px solid rgba(217,140,31,0.28);}
+  .doc-ref{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; margin-bottom:26px; display:flex; align-items:center; gap:10px; position:relative;}
+  .doc-ref::before{content:""; width:22px; height:1px; background:var(--gold); display:inline-block;}
+  h1{font-family:'Fraunces',serif; font-weight:400; font-size:clamp(32px,6vw,56px); line-height:1.08; letter-spacing:-.01em; margin-bottom:20px; max-width:16ch; position:relative;}
+  .hero p.sub{max-width:54ch; opacity:.82; font-size:16px; margin-bottom:40px; position:relative; color:#DAE0D2;}
+  .firma{display:inline-flex; flex-direction:column; gap:3px; border-left:1px solid rgba(201,154,46,0.5); padding-left:16px; position:relative;}
+  .firma .autor{font-family:'Fraunces',serif; font-weight:500; font-size:17px; letter-spacing:.2px;}
+  .firma .firm{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold);}
+
+  /* ---------- TOC : compact index grid ---------- */
+  .toc-panel{background:var(--paper-alt); padding:44px 8vw; border-bottom:1px solid var(--line);}
+  .toc-panel h2{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:22px; font-weight:600;}
+  .toc-grid{display:grid; grid-template-columns:1fr; gap:0; max-width:980px; border-top:1px solid var(--line);}
+  @media(min-width:640px){ .toc-grid{grid-template-columns:1fr 1fr;} }
+  .toc-grid a{display:flex; gap:12px; align-items:baseline; text-decoration:none; color:var(--ink); padding:12px 6px; font-size:13.5px; border-bottom:1px solid var(--line); transition:padding-left .15s ease;}
+  .toc-grid a:hover{padding-left:12px; color:var(--navy);}
+  .toc-num{font-family:'IBM Plex Mono',monospace; color:var(--gold); font-weight:600; font-size:11.5px;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:64px 8vw; border-bottom:1px solid var(--line); position:relative;}
+  section.alt{background:var(--paper-alt);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:30px; flex-wrap:wrap;}
+  .sec-numeral{font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--gold); letter-spacing:.1em; line-height:1; opacity:1; border:1px solid rgba(217,140,31,0.42); padding:5px 9px; border-radius:2px;}
+  h2{font-family:'Fraunces',serif; font-size:27px; font-weight:500; color:var(--navy);}
+  h3{font-family:'Fraunces',serif; font-size:18px; font-weight:500; color:var(--crimson); margin:30px 0 10px;}
+  h4{font-size:11.5px; font-weight:600; color:var(--azure); margin:18px 0 7px; text-transform:uppercase; letter-spacing:.09em;}
+  .subnum{font-family:'IBM Plex Mono',monospace; color:var(--gold); margin-right:8px; font-size:13px;}
+  p{font-size:14.5px; max-width:74ch; margin-bottom:12px; color:#333B30;}
+  ul,ol{margin:0 0 13px 20px; font-size:14.5px; max-width:74ch;}
+  li{margin-bottom:6px;}
+
+  /* ---------- CARDS : minimal accent-bar treatment ---------- */
+  .grid-2{display:grid; grid-template-columns:1fr; gap:1px; margin-top:12px; background:var(--line); border:1px solid var(--line);}
+  @media(min-width:700px){ .grid-2{grid-template-columns:1fr 1fr;} }
+  .tarjeta{background:#fff; border:none; border-left:2px solid var(--azure); padding:20px 22px; box-shadow:none;}
+  .tarjeta h4{margin-top:0;}
+
+  /* ---------- TABLES : precise, low-shadow ---------- */
+  .tabla-wrap{overflow-x:auto; margin:22px 0; background:#fff; border:1px solid var(--line); box-shadow:none;}
+  .tabla-caption{background:var(--navy); color:#fff; padding:11px 16px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center;}
+  .tabla-caption .hint{opacity:.55; font-size:9.5px; text-transform:none; letter-spacing:.3px;}
+  table{width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:12.5px; min-width:420px;}
+  th{background:var(--paper-alt); color:var(--navy); font-weight:600; padding:11px 14px; text-align:right; white-space:nowrap; cursor:pointer; user-select:none; border-bottom:1px solid var(--navy); text-transform:uppercase; letter-spacing:.04em; font-size:10.5px;}
+  th:first-child, td:first-child{text-align:left; white-space:normal;}
+  th::after{content:"⇅"; opacity:.35; margin-left:6px; font-size:10px;}
+  th.sorted-asc::after{content:"↑"; opacity:1; color:var(--crimson);}
+  th.sorted-desc::after{content:"↓"; opacity:1; color:var(--crimson);}
+  td{padding:10px 14px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap;}
+  td:first-child{text-align:left;}
+  tbody tr:hover{background:rgba(110,155,59,0.07);}
+  tbody tr:last-child{font-weight:700; background:var(--paper-alt);}
+  tbody tr:last-child td{border-top:1px solid var(--navy); border-bottom:none;}
+
+  .bars{margin:20px 0 28px;}
+  .bar-row{display:flex; align-items:center; gap:12px; margin-bottom:11px; font-size:12px; font-family:'IBM Plex Mono',monospace;}
+  .bar-label{width:180px; flex-shrink:0; color:var(--navy); font-weight:600;}
+  .bar-track{flex:1; background:var(--paper-alt); height:6px; border-radius:0; overflow:hidden;}
+  .bar-fill{height:100%; background:linear-gradient(90deg, var(--azure), var(--gold));}
+  .bar-pct{width:56px; text-align:right; color:var(--crimson); font-weight:700;}
+
+  /* ---------- CALLOUT VARIANTS : shared minimal accent-bar language ---------- */
+  .pendiente{border:1px solid var(--line); border-left:2px solid var(--crimson); background:#fff; color:var(--navy); padding:16px 18px; font-size:13px; font-family:'IBM Plex Mono',monospace; letter-spacing:.3px; max-width:74ch;}
+  .fase{border-left:2px solid var(--gold); padding-left:18px; margin-bottom:20px; background:#fff; padding-top:10px; padding-bottom:10px; box-shadow:none;}
+  .riesgo{background:#fff; border:none; border-left:2px solid var(--crimson); padding:16px 20px; margin-bottom:14px; box-shadow:none;}
+  .riesgo h4{margin-top:0; color:var(--crimson);}
+  .quote-box{border-left:2px solid var(--gold); padding:18px 24px; margin:20px 0; font-family:'Fraunces',serif; font-style:italic; font-weight:400; font-size:17px; color:var(--navy); background:#fff;}
+  .ONCE14-box{border:none; border-left:2px solid var(--azure); background:rgba(110,155,59,0.07); padding:18px 22px; margin:22px 0;}
+  .ONCE14-box .ONCE14-tag{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--azure); font-weight:600; margin-bottom:7px; display:block;}
+  .ONCE14-box p{margin-bottom:0; color:var(--navy);}
+
+  .progress-bar{position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg, var(--gold), var(--azure)); z-index:200; width:0%; transition:width .1s linear;}
+  .fin-subnav-wrap{position:sticky; top:49px; z-index:60; margin:0 -8vw 26px; background:rgba(241,236,218,0.9); backdrop-filter:blur(6px); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .fin-subnav{display:flex; gap:6px; overflow-x:auto; padding:11px 8vw; -webkit-overflow-scrolling:touch;}
+  .fin-subnav a{flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.3px; text-transform:uppercase; color:var(--navy); background:#fff; border:1px solid var(--line); border-radius:2px; padding:6px 12px; text-decoration:none; white-space:nowrap; transition:background .15s ease, color .15s ease;}
+  .fin-subnav a:hover, .fin-subnav a:focus-visible{background:var(--navy); color:#fff; border-color:var(--navy); outline:none;}
+  .back-to-top{position:fixed; right:22px; bottom:22px; z-index:200; width:40px; height:40px; border-radius:50%; background:var(--navy); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:15px; box-shadow:0 4px 14px rgba(10,24,16,0.28); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .15s ease;}
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-2px);}
+  footer{background:var(--navy-deep); color:#CFC9AE; padding:56px 8vw; font-size:12px; text-align:left; display:flex; flex-direction:column; align-items:flex-start;}
+  footer .fname{font-family:'Fraunces',serif; font-weight:500; font-size:17px; color:#fff; margin-bottom:5px;}
+  footer .ffirm{font-family:'IBM Plex Mono',monospace; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; font-size:10.5px; margin-bottom:18px;}
+  footer p{margin-bottom:4px; max-width:none; color:#9EA893; font-size:11.5px;}
+
+  #findeep{
+    --paper:#F7F2DE;
+    --card:#FFFFFF;
+    --ink:#1A1F14;
+    --ink-soft:#4A5940;
+    --forest:#1C3B1E;
+    --forest-2:#0E2412;
+    --avocado:#4E9A34;
+    --avocado-soft:#E4EFCF;
+    --gold:#D8A61F;
+    --gold-soft:#F3E4B8;
+    --line:rgba(28,59,30,0.16);
+    --crimson:#7E8F1E;
+  }#findeep * {box-sizing:border-box; margin:0; padding:0;}#findeep html {scroll-behavior:smooth;}#findeep body {
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }#findeep .serif {font-family:'Fraunces',serif;}#findeep .mono {font-family:'IBM Plex Mono',monospace;}#findeep /* ---------- HERO ---------- */
+  .hero {
+    background:radial-gradient(120% 140% at 15% 0%, #26492E 0%, var(--forest) 55%, #142118 100%);
+    color:#F4F6EF;
+    padding:88px 8vw 64px;
+    position:relative;
+    overflow:hidden;
+  }#findeep .hero::after {
+    content:"";
+    position:absolute; right:-10%; top:-20%;
+    width:640px; height:640px;
+    border-radius:50%;
+    border:1px solid rgba(244,246,239,0.08);
+  }#findeep .hero::before {
+    content:"";
+    position:absolute; right:2%; top:8%;
+    width:420px; height:420px;
+    border-radius:50%;
+    border:1px solid rgba(244,246,239,0.08);
+  }#findeep .eyebrow {
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:28px;
+  }#findeep .eyebrow::before {content:"";width:22px;height:1px;background:var(--gold-soft);display:inline-block;}#findeep .hero h1 {
+    font-weight:400;
+    font-size:clamp(34px, 5.4vw, 68px);
+    line-height:1.06;
+    max-width:15ch;
+    letter-spacing:-0.01em;
+  }#findeep .hero h1 em {font-style:italic; color:var(--avocado-soft); font-weight:300;}#findeep .hero p.lede {
+    margin-top:24px;
+    max-width:52ch;
+    font-size:17px;
+    color:#D6DECB;
+  }#findeep .stat-row {
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:repeat(4,minmax(120px,1fr));
+    gap:0;
+    border-top:1px solid rgba(244,246,239,0.18);
+    padding-top:28px;
+  }#findeep .stat-row .stat + .stat {border-left:1px solid rgba(244,246,239,0.14); padding-left:22px;}#findeep .stat .num {font-family:'Fraunces',serif; font-size:clamp(24px,2.6vw,34px); color:#fff; font-weight:500;}#findeep .stat .lbl {font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; color:#AEBBA2; margin-top:6px;}#findeep /* ---------- NAV ---------- */
+  nav.section-nav {
+    position:sticky; top:0; z-index:40;
+    background:rgba(244,246,239,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    display:flex; gap:2px; overflow-x:auto;
+    padding:0 8vw;
+  }#findeep nav.section-nav a {
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    text-decoration:none;
+    padding:14px 16px;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition:color .2s, border-color .2s;
+  }#findeep nav.section-nav a:hover {color:var(--forest); border-color:var(--avocado);}#findeep /* ---------- LAYOUT ---------- */
+  main {max-width:1180px; margin:0 auto; padding:0 8vw;}#findeep section {padding:76px 0; border-bottom:1px solid var(--line);}#findeep section:last-of-type {border-bottom:none;}#findeep .sec-head {display:flex; align-items:baseline; gap:16px; margin-bottom:8px;}#findeep .sec-num {font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--gold); letter-spacing:0.05em;}#findeep .sec-title {font-family:'Fraunces',serif; font-weight:500; font-size:clamp(24px,3vw,36px); color:var(--forest);}#findeep .sec-sub {color:var(--ink-soft); max-width:62ch; margin:14px 0 40px; font-size:15px;}#findeep /* ---------- CARDS / GRID ---------- */
+  .grid {display:grid; gap:1px; background:var(--line); border:1px solid var(--line);}#findeep .grid.cols-4 {grid-template-columns:repeat(4,1fr);}#findeep .grid.cols-3 {grid-template-columns:repeat(3,1fr);}#findeep .grid.cols-2 {grid-template-columns:repeat(2,1fr);}#findeep .card {background:var(--card); padding:26px 24px;}#findeep .card .k {font-family:'Fraunces',serif; font-size:26px; color:var(--forest); font-weight:500;}#findeep .card .l {font-size:12.5px; color:var(--ink-soft); margin-top:6px; letter-spacing:0.01em;}#findeep .card .d {font-size:12.5px; color:var(--ink-soft); margin-top:10px; line-height:1.5; border-top:1px solid var(--line); padding-top:10px;}#findeep /* ---------- BLOOM RING (signature element) ---------- */
+  .bloom-wrap {display:flex; align-items:center; gap:56px; flex-wrap:wrap; margin:44px 0;}#findeep .bloom-ring {position:relative; width:280px; height:280px; flex:0 0 auto;}#findeep .bloom-ring svg {width:100%; height:100%;}#findeep .bloom-center {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+  }#findeep .bloom-center .n {font-family:'Fraunces',serif; font-size:30px; color:var(--forest); font-weight:500;}#findeep .bloom-center .t {font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); max-width:12ch; margin-top:4px;}#findeep .bloom-legend {display:grid; gap:14px; flex:1; min-width:240px;}#findeep .bloom-legend .row {display:flex; align-items:baseline; gap:10px; font-size:14px;}#findeep .bloom-legend .dot {width:9px; height:9px; border-radius:50%; flex:0 0 auto;}#findeep .bloom-legend .name {font-weight:600; color:var(--ink);}#findeep .bloom-legend .desc {color:var(--ink-soft); font-size:13px;}#findeep /* ---------- TABLES ---------- */
+  table {width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:12.6px;}#findeep thead th {
+    text-align:right; font-weight:500; color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.04em; font-size:10.5px;
+    padding:10px 12px; border-bottom:1px solid var(--ink);
+  }#findeep thead th:first-child {text-align:left;}#findeep tbody td {padding:9px 12px; text-align:right; border-bottom:1px solid var(--line); color:var(--ink);}#findeep tbody td:first-child {text-align:left; color:var(--ink-soft); font-weight:500;}#findeep tbody tr:hover {background:var(--avocado-soft);}#findeep .table-scroll {overflow-x:auto; border:1px solid var(--line); background:var(--card);}#findeep .table-scroll table {min-width:760px;}#findeep #proformaTable {min-width:1180px;}#findeep #sensTable td.heat {color:#16201A; font-weight:500;}#findeep .chart-box {background:var(--card); border:1px solid var(--line); padding:24px; margin-bottom:28px;}#findeep .chart-box h4 {font-family:'Fraunces',serif; font-weight:500; font-size:16px; color:var(--forest); margin-bottom:16px;}#findeep canvas {max-height:320px;}#findeep .risk-table td, #findeep .risk-table th {font-family:'Inter',sans-serif;}#findeep .risk-table td:first-child {font-family:'Inter',sans-serif; font-weight:600;}#findeep .callout {
+    background:var(--forest); color:#F4F6EF; padding:32px;
+    display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
+    margin-top:36px;
+  }#findeep .callout .big {font-family:'Fraunces',serif; font-size:40px; color:#fff;}#findeep .callout .txt {font-size:14px; color:#CFDABE; max-width:44ch;}#findeep footer {padding:48px 8vw 64px; color:var(--ink-soft); font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}#findeep .reveal {opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}#findeep .reveal.in {opacity:1; transform:translateY(0);}
+
+  @media (max-width:820px){#findeep .grid.cols-4 {grid-template-columns:repeat(2,1fr);}#findeep .grid.cols-3 {grid-template-columns:repeat(1,1fr);}#findeep .stat-row {grid-template-columns:repeat(2,1fr); row-gap:20px;}#findeep .stat-row .stat:nth-child(3) {border-left:none;}#findeep .bloom-wrap {gap:28px;}#findeep .callout {grid-template-columns:1fr;}
+  }#findeep a:focus-visible, #findeep button:focus-visible {outline:2px solid var(--gold); outline-offset:3px;}
+
+</style>
+<meta name="robots" content="noindex,follow"><meta name="theme-color" content="#164b38"><link rel="icon" href="/assets/favicon.svg"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/trabajos/shared/portfolio.css"></head>
+<body><div class="once-header"><a href="/"><img src="/assets/logo-transparent.webp" alt="ONCE14 · Capital &amp; Business Strategy" width="1000" height="333"></a><div class="once-tools"><a class="once-home" href="/#proyectos">← Trabajos realizados</a><span style="font-size:11px">Documento / Document: EN</span><select id="once-jump" aria-label="Secciones / Sections"></select><button id="once-print" type="button">Imprimir / PDF</button></div></div><div class="once-notice">VERSIÓN PÚBLICA ANONIMIZADA / ANONYMIZED PUBLIC EDITION · Identidad del cliente reservada. Análisis y proyecciones del documento original; no constituyen resultados garantizados ni una auditoría de cifras. / Client identity withheld. Original document analysis and projections; not guaranteed outcomes or an audit of figures.</div>
+
+<div class="progress-bar" id="progressBar"></div>
+<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
+
+<div class="marca-agua" id="marcaAgua"></div>
+
+<div class="idbar">
+  <span><strong>ONCE14 Capital &amp; Business Strategy</strong> — Strategic Advisory</span>
+  <span>Ref. ONCE14-AGRO · Confidential</span>
+</div>
+
+<nav>
+  <a href="#summary">01 Summary</a>
+  <a href="#company">02 Company</a>
+  <a href="#market">03 Market</a>
+  <a href="#operations">04 Operations</a>
+  <a href="#regulatory">05 Regulatory</a>
+  <a href="#commercial">06 Commercial</a>
+  <a href="#investment">07 Investment</a>
+  <a href="#financials">08 Financials</a>
+  <a href="#risks">09 Risks</a>
+  <a href="#exit">10 Exit &amp; ESG</a>
+  <a href="#appendices">11 Appendices</a>
+  <a href="#about">About ONCE14</a>
+</nav>
+
+<header class="hero">
+  <div class="doc-ref">Investment Business Plan — Prepared for Agroexportadora · Cliente confidencial</div>
+  <h1>Agroexportadora · Cliente confidencial: An Integrated Export Platform for Premium Mexican Fresh Produce</h1>
+  <p class="sub">A comprehensive investment case covering company structure, market analysis, operations, regulatory positioning, commercial strategy, capital requirements, financial outlook, and risk architecture — prepared for institutional review, July 2026.</p>
+  <div class="firma">
+    <span class="autor">Dr. Jaudiel Katawra</span>
+    <span class="firm">ONCE14 Capital &amp; Business Strategy</span>
+  </div>
+</header>
+
+<div class="toc-panel">
+  <h2>Contents</h2>
+  <div class="toc-grid">
+    <a href="#summary"><span class="toc-num">01</span> Executive Summary</a>
+    <a href="#company"><span class="toc-num">02</span> Company Overview</a>
+    <a href="#market"><span class="toc-num">03</span> Market Opportunity &amp; Industry Analysis</a>
+    <a href="#operations"><span class="toc-num">04</span> Operations Plan &amp; Supply Chain</a>
+    <a href="#regulatory"><span class="toc-num">05</span> Regulatory Compliance &amp; Certifications</a>
+    <a href="#commercial"><span class="toc-num">06</span> Sales &amp; Marketing Strategy</a>
+    <a href="#investment"><span class="toc-num">07</span> Capital Investment &amp; Use of Funds</a>
+    <a href="#financials"><span class="toc-num">08</span> Financial Projections &amp; Returns</a>
+    <a href="#risks"><span class="toc-num">09</span> Risk Analysis &amp; Mitigation</a>
+    <a href="#exit"><span class="toc-num">10</span> Exit Strategy &amp; ESG</a>
+    <a href="#appendices"><span class="toc-num">11</span> Appendices</a>
+    <a href="#about"><span class="toc-num">12</span> About This Advisory</a>
+  </div>
+</div>
+
+
+<section id="summary">
+  <div class="sec-head"><span class="sec-numeral">01</span><h2>Executive Summary</h2></div>
+  <p>Agroexportadora · Cliente confidencial is a Mexican agribusiness company specializing in the production, sourcing, packing, commercialization, and export of premium fresh produce, with a primary focus on Hass avocados. Established in 2002 and headquartered in Uruapan, Michoacán, the company has developed extensive operational experience serving domestic and international markets.</p>
+  <p>The company is seeking <strong>USD $1,105,274</strong> in growth capital to complete the development of a modern avocado packing and export facility capable of serving high-value international markets, including the United States, Canada, Europe, Asia, and the Middle East. The investment will finance fixed assets, regulatory certifications, and initial working capital required to scale operations.</p>
+  <p>Demand for premium Mexican Hass avocados continues to increase due to strong consumer preferences for healthy foods, year-round product availability, and expanding retail distribution. Mexico remains the world's leading avocado exporter, providing Agroexportadora · Cliente confidencial with a strategic competitive advantage through its location in Michoacán, one of the most productive avocado-growing regions globally.</p>
+  <h4>The proposed investment will allow the company to</h4>
+  <ul>
+    <li>Expand packing and cold-chain infrastructure</li>
+    <li>Increase export capacity</li>
+    <li>Meet international food safety and sustainability standards</li>
+    <li>Access premium retail and wholesale markets</li>
+    <li>Generate long-term recurring revenue through both product sales and packing services</li>
+  </ul>
+  <p>The management team's combined experience in agricultural production, post-harvest handling, logistics, and international commercialization significantly reduces operational risk while positioning the company for scalable growth.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>What distinguishes this opportunity within the agribusiness export sector is the combination of a two-decade operating track record with a still-underbuilt export infrastructure — a profile that typically carries lower execution risk than greenfield ventures while retaining meaningful capacity upside. The remainder of this document develops each pillar of that thesis in turn: market positioning, operational architecture, regulatory readiness, commercial strategy, and capital structure.</p>
+  </div>
+</section>
+
+
+<section id="company" class="alt">
+  <div class="sec-head"><span class="sec-numeral">02</span><h2>Company Overview</h2></div>
+  <div class="grid-2">
+    <div class="tarjeta">
+      <h4>Legal Name</h4><p>Agroexportadora · Cliente confidencial</p>
+      <h4>Headquarters</h4><p>Uruapan, Michoacán, Mexico</p>
+      <h4>Industry</h4><p>Agribusiness / Fresh Produce Export / Food Processing &amp; Packing</p>
+    </div>
+    <div class="tarjeta">
+      <h4>Core Business</h4>
+      <p>Agroexportadora · Cliente confidencial operates as an integrated agricultural company involved in production, sourcing, packing, cold storage, distribution, export logistics, and international commercialization.</p>
+      <p>The company's flagship product is Premium Hass Avocado, while maintaining the capability to commercialize additional fresh produce including mango, guava, and berries. This diversified portfolio allows the company to maximize facility utilization throughout different harvest seasons while reducing dependence on a single crop.</p>
+    </div>
+    <div class="tarjeta">
+      <h4>Legal Representative</h4>
+      <p style="font-style:italic; opacity:.72;">Disponible solo con acuerdo de confidencialidad / Available only under NDA</p>
+      <h4>Tax ID (RFC)</h4>
+      <p style="font-style:italic; opacity:.72;">Disponible solo con acuerdo de confidencialidad / Available only under NDA</p>
+      <h4>Registered Address</h4>
+      <p style="font-style:italic; opacity:.72;">Disponible solo con acuerdo de confidencialidad / Available only under NDA</p>
+      <h4>Contact Phone</h4>
+      <p style="font-style:italic; opacity:.72;">Disponible solo con acuerdo de confidencialidad / Available only under NDA</p>
+      <h4>Email</h4>
+      <p style="font-style:italic; opacity:.72;">Disponible solo con acuerdo de confidencialidad / Available only under NDA</p>
+    </div>
+  </div>
+
+  <h3><span class="subnum">2.1</span>Investment Highlights</h3>
+  <ul>
+    <li>More than 20 years of operating experience</li>
+    <li>Located in Mexico's premier avocado-producing region</li>
+    <li>Access to year-round export markets</li>
+    <li>Existing operational knowledge of international logistics</li>
+    <li>Strong growth potential in North America and premium global markets</li>
+    <li>Scalable business model with recurring revenue streams</li>
+    <li>Focus on quality, food safety, sustainability, and regulatory compliance</li>
+  </ul>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>Longevity in Mexican agribusiness is not by itself a differentiator — the region is dense with multigenerational grower operations. What matters commercially is whether that tenure has been converted into repeatable process (traceability, cold-chain discipline, certification readiness) rather than informal relationships alone. Sections 4 through 6 below examine that conversion in detail.</p>
+  </div>
+</section>
+
+
+<section id="market">
+  <div class="sec-head"><span class="sec-numeral">03</span><h2>Market Opportunity &amp; Industry Analysis</h2></div>
+
+  <h3><span class="subnum">3.1</span>Global Market Overview</h3>
+  <p>The global fresh avocado industry has experienced sustained growth over the past decade, driven by increasing consumer awareness of healthy eating habits, the expansion of retail distribution networks, and rising demand for fresh produce in North America, Europe, and Asia.</p>
+  <p>Mexico is the world's largest producer and exporter of Hass avocados, supplying the majority of the U.S. market. Its favorable climate, year-round production, and established phytosanitary protocols position Mexican exporters as strategic suppliers for international buyers.</p>
+  <p>As consumer demand continues to expand, importers are increasingly seeking suppliers capable of providing consistent year-round availability, premium fruit quality, reliable cold-chain logistics, full regulatory compliance, sustainable production practices, and social responsibility certifications. These trends create significant opportunities for well-capitalized exporters with modern packing infrastructure.</p>
+
+  <h3><span class="subnum">3.2</span>Target Markets</h3>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>United States</h4><p>The company's primary target market due to: largest importer of Mexican Hass avocados, stable year-round demand, mature retail distribution, strong foodservice consumption, and premium pricing opportunities.</p></div>
+    <div class="tarjeta"><h4>Canada</h4><p>Continues to increase avocado consumption through retail grocery chains and wholesale distributors, creating attractive opportunities for premium imported fruit.</p></div>
+    <div class="tarjeta"><h4>European Union</h4><p>European consumers increasingly demand certified products, sustainable agriculture, social responsibility, organic production, and traceability — requirements aligned with the company's long-term certification strategy.</p></div>
+    <div class="tarjeta"><h4>Asia</h4><p>Rapid growth in avocado consumption, particularly in Japan, South Korea, China, and Singapore. These markets typically reward premium quality with higher selling prices.</p></div>
+    <div class="tarjeta"><h4>Middle East</h4><p>Premium retailers in the United Arab Emirates, Saudi Arabia, and neighboring Gulf countries continue expanding imports of high-quality fresh produce to satisfy increasing consumer demand.</p></div>
+  </div>
+
+  <h3><span class="subnum">3.3</span>Industry Trends</h3>
+  <ul>
+    <li><strong>Healthy Lifestyle:</strong> consumers increasingly view avocados as a "superfood" because of their healthy fats, fiber, vitamins, and natural nutritional value.</li>
+    <li><strong>Retail Expansion:</strong> major supermarket chains continue expanding premium fresh produce offerings while requiring suppliers capable of meeting strict quality and food safety standards.</li>
+    <li><strong>Traceability:</strong> importers increasingly demand complete product traceability from farm to consumer.</li>
+    <li><strong>Sustainability:</strong> environmental stewardship and socially responsible production practices have become purchasing requirements rather than competitive advantages.</li>
+    <li><strong>Food Safety:</strong> international buyers now prioritize suppliers certified under recognized food safety systems that ensure consistent product quality and regulatory compliance.</li>
+  </ul>
+
+  <h3><span class="subnum">3.4</span>Competitive Advantages</h3>
+  <p>Agroexportadora · Cliente confidencial possesses several competitive strengths that differentiate the company from many regional exporters.</p>
+  <ul>
+    <li><strong>Strategic Location:</strong> located in Uruapan, Michoacán — the heart of Mexico's avocado industry — the company benefits from direct access to premium fruit production areas and established logistics infrastructure.</li>
+    <li><strong>Experienced Management:</strong> decades of combined experience in agricultural production, fruit sourcing, packing operations, export logistics, and international commercialization, significantly reducing execution risk.</li>
+    <li><strong>Integrated Business Model:</strong> unlike companies focused solely on trading, Agroexportadora · Cliente confidencial integrates grower relationships, procurement, packing, cold storage, export logistics, and commercialization — enhancing quality control while improving profit margins.</li>
+    <li><strong>Diversified Product Portfolio:</strong> mango, guava, and berries alongside Hass avocados, allowing better facility utilization and reduced seasonal risk.</li>
+    <li><strong>Commitment to International Standards:</strong> certifications covering food safety, quality assurance, traceability, social responsibility, and environmental sustainability.</li>
+  </ul>
+
+  <h3><span class="subnum">3.5</span>Growth Strategy</h3>
+  <p>The investment will enable Agroexportadora · Cliente confidencial to execute a scalable growth strategy focused on increasing export volumes, expanding packing capacity, serving premium international customers, building long-term supply agreements, improving operational efficiency, increasing EBITDA through value-added packing services, and positioning the company as a preferred supplier for global retailers and importers.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The multi-market posture described above — five distinct destination regions rather than reliance on a single corridor — is the structural feature most relevant to downside protection. It reduces the plan's sensitivity to any single country's tariff policy, currency movement, or import-season disruption, and it is a distinction institutional buyers increasingly screen for when evaluating supplier concentration risk.</p>
+  </div>
+</section>
+
+
+<section id="operations" class="alt">
+  <div class="sec-head"><span class="sec-numeral">04</span><h2>Operations Plan &amp; Supply Chain</h2></div>
+  <p>Agroexportadora · Cliente confidencial's operational model is designed to ensure the efficient movement of fresh produce from growers to international customers while preserving product quality, food safety, and full traceability throughout the supply chain. The company operates an integrated export platform that combines procurement, quality control, packing, cold storage, logistics coordination, and international distribution. This vertically integrated approach enables consistent product quality, reduced post-harvest losses, and improved operating margins.</p>
+
+  <h3><span class="subnum">4.1</span>Business Process</h3>
+  <ol>
+    <li><strong>Grower Network:</strong> sourcing premium Hass avocados and other fresh produce from experienced growers located primarily in Michoacán. Supplier relationships are based on long-term purchasing agreements, quality specifications, harvest scheduling, traceability requirements, and Good Agricultural Practices (GAP), providing year-round supply continuity.</li>
+    <li><strong>Receiving &amp; Quality Inspection:</strong> visual inspection, size verification, maturity assessment, external quality evaluation, traceability registration, and lot identification. Only fruit meeting export-grade specifications proceeds to processing.</li>
+    <li><strong>Sorting &amp; Grading:</strong> automated grading equipment classifies fruit by size, weight, external appearance, export quality standards, and customer specifications, ensuring uniformity across every shipment.</li>
+    <li><strong>Packing Operations:</strong> washing, sorting, labeling, packing, palletizing, and final inspection according to destination market requirements. The facility serves both company-owned fruit and third-party packing services.</li>
+    <li><strong>Cold Chain Management:</strong> refrigerated storage, temperature monitoring, inventory rotation, shipment scheduling, and export loading. Uninterrupted cold-chain integrity is essential for shelf life and customer satisfaction.</li>
+    <li><strong>Export Logistics:</strong> customs documentation, phytosanitary inspections, FDA compliance, USDA import requirements, ocean and truck transportation, distribution to importers and wholesalers — minimizing transit time while ensuring regulatory compliance.</li>
+  </ol>
+
+  <h3><span class="subnum">4.2</span>Supply Chain Strategy</h3>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Reliability</h4><p>Maintaining consistent product availability throughout the harvest season.</p></div>
+    <div class="tarjeta"><h4>Quality</h4><p>Delivering premium export-grade fruit that consistently exceeds customer expectations.</p></div>
+    <div class="tarjeta"><h4>Efficiency</h4><p>Optimizing logistics, inventory, and operational costs to maximize profitability.</p></div>
+  </div>
+
+  <h3><span class="subnum">4.3</span>Infrastructure Investment</h3>
+  <p>The investment capital will finance the development of a modern export packing operation, including an industrial packing facility, automated grading equipment, labeling systems, mesh bagging equipment, refrigerated storage rooms, and material handling equipment. These assets will significantly increase operational capacity while improving efficiency and reducing handling losses.</p>
+
+  <h3><span class="subnum">4.4</span>Quality Assurance Program</h3>
+  <p>Quality management is embedded throughout every operational stage. The company will implement documented procedures covering product inspections, sanitation protocols, equipment maintenance, employee training, traceability systems, recall procedures, and continuous improvement — helping ensure compliance with international customer specifications.</p>
+
+  <h3><span class="subnum">4.5</span>Technology &amp; Traceability</h3>
+  <p>Agroexportadora · Cliente confidencial will utilize modern inventory and traceability systems capable of tracking every shipment from farm to final customer. Each production lot will be documented with grower identification, harvest date, packing date, lot number, destination market, and export documentation. This level of traceability supports regulatory compliance while strengthening customer confidence.</p>
+
+  <h3><span class="subnum">4.6</span>Human Capital</h3>
+  <p>The company recognizes that operational excellence depends on a skilled workforce. Training programs will focus on food safety, product handling, occupational safety, equipment operation, quality assurance, and continuous improvement. Employee development is viewed as a strategic investment supporting productivity, operational consistency, and long-term growth.</p>
+
+  <h3><span class="subnum">4.7</span>Operational Advantages</h3>
+  <ul>
+    <li>Integrated production and export platform</li>
+    <li>Modern packing and refrigeration infrastructure</li>
+    <li>Flexible capacity for both owned fruit and contract packing services</li>
+    <li>Strong relationships with growers</li>
+    <li>Efficient cold-chain logistics</li>
+    <li>High standards of food safety and traceability</li>
+    <li>Scalable operations capable of supporting significant future growth</li>
+  </ul>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The six-stage process outlined in 4.1 is standard for export-grade packing operations; the investment case rests less on the sequence itself than on whether each stage is automated and traceable end-to-end. The capital plan in Section 7 allocates the majority of proceeds precisely to closing that gap — grading, labeling, and cold storage — rather than to expansion of grower relationships, which the company already has in place.</p>
+  </div>
+</section>
+
+
+<section id="regulatory">
+  <div class="sec-head"><span class="sec-numeral">05</span><h2>Regulatory Compliance &amp; Certifications</h2></div>
+  <p>Agroexportadora · Cliente confidencial recognizes that access to premium international markets depends on strict compliance with food safety regulations, phytosanitary requirements, environmental standards, and corporate governance practices. The company's regulatory strategy is designed to exceed minimum export requirements while positioning Agroexportadora · Cliente confidencial as a preferred supplier for international retailers, foodservice companies, and wholesale importers.</p>
+
+  <h3><span class="subnum">5.1</span>Food Safety Compliance</h3>
+  <p>Food safety is a fundamental component of the company's operating model. The packing facility will implement standardized procedures covering sanitation and hygiene protocols, hazard prevention, product inspection, temperature control, pest management, employee training, documentation and recordkeeping, and product traceability.</p>
+
+  <h3><span class="subnum">5.2</span>FDA Compliance (United States)</h3>
+  <p>Because the United States is the company's primary export market, Agroexportadora · Cliente confidencial will maintain compliance with all applicable U.S. Food and Drug Administration (FDA) regulations for food facilities exporting fresh produce, including FDA facility registration, food traceability requirements, preventive food safety controls, record retention, export documentation, and recall readiness.</p>
+
+  <h3><span class="subnum">5.3</span>USDA &amp; APHIS Requirements</h3>
+  <p>The company will comply with all applicable United States Department of Agriculture (USDA) and Animal and Plant Health Inspection Service (APHIS) import requirements, including phytosanitary inspections, pest prevention protocols, export permits, inspection certificates, and plant health documentation. Compliance minimizes border delays and supports efficient international logistics.</p>
+
+  <h3><span class="subnum">5.4</span>Good Agricultural Practices (GlobalG.A.P.)</h3>
+  <p>Agroexportadora · Cliente confidencial intends to work with growers operating under internationally recognized agricultural standards. GlobalG.A.P. certification promotes safe food production, responsible pesticide management, environmental protection, worker welfare, farm traceability, and sustainable agricultural practices — increasingly required by major retailers throughout North America and Europe.</p>
+
+  <h3><span class="subnum">5.5</span>Social Responsibility</h3>
+  <p>The company views social responsibility as an essential component of long-term business sustainability. Corporate initiatives include fair employment practices, safe working conditions, continuous employee training, ethical labor standards, community engagement, and environmental stewardship.</p>
+
+  <h3><span class="subnum">5.6</span>Environmental Sustainability</h3>
+  <p>Environmental management focuses on minimizing operational impact while promoting responsible resource utilization: efficient water usage, responsible waste management, energy efficiency, recycling programs, sustainable packaging, and environmental awareness.</p>
+
+  <h3><span class="subnum">5.7</span>Quality Management System</h3>
+  <p>Agroexportadora · Cliente confidencial is committed to implementing a comprehensive Quality Management System (QMS), including Standard Operating Procedures (SOPs), internal audits, corrective action procedures, preventive action programs, supplier evaluations, continuous improvement initiatives, and management performance reviews.</p>
+
+  <h3><span class="subnum">5.8</span>Corporate Governance</h3>
+  <p>The company is committed to maintaining transparent and professional management practices that support investor confidence: financial accountability, internal controls, regulatory compliance, ethical business conduct, risk management, operational transparency, and performance monitoring.</p>
+
+  <h3><span class="subnum">5.9</span>Competitive Advantage Through Compliance</h3>
+  <p>Rather than viewing certifications as regulatory obligations, Agroexportadora · Cliente confidencial considers them strategic assets that generate measurable business value — enabling access to premium global markets, strengthening customer trust, increasing product value, expanding export opportunities, reducing regulatory risk, and supporting long-term commercial relationships.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>Regulatory readiness across nine distinct frameworks (5.1–5.9) is unusually broad for a company at this stage of capitalization, and it functions as a barrier to entry for competitors as much as a compliance obligation. From an investor's standpoint, the more relevant question is sequencing: certifications overlap in required documentation, so the deployment timeline in Section 7.4 groups them to avoid duplicated audit cost.</p>
+  </div>
+</section>
+
+
+<section id="commercial" class="alt">
+  <div class="sec-head"><span class="sec-numeral">06</span><h2>Sales &amp; Marketing Strategy</h2></div>
+  <p>Agroexportadora · Cliente confidencial's commercial strategy is centered on becoming a preferred supplier of premium Mexican fresh produce for international importers, supermarket chains, foodservice distributors, and wholesale produce companies. Rather than competing on price alone, the Company will differentiate itself through superior product quality, consistent year-round supply, food safety compliance, reliable logistics, and long-term strategic partnerships.</p>
+
+  <h3><span class="subnum">6.1</span>Target Customers</h3>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Retail Chains</h4><p>Large supermarket companies requiring year-round supply of premium Hass avocados and fresh produce — regional grocery chains, club stores, specialty retailers.</p></div>
+    <div class="tarjeta"><h4>Produce Importers</h4><p>Import companies that distribute fresh produce throughout North America and international markets, valuing supply consistency, export expertise, food safety, and reliable logistics.</p></div>
+    <div class="tarjeta"><h4>Wholesale Produce Distributors</h4><p>Regional distributors serving restaurants, hotels, institutional foodservice, and independent grocery stores.</p></div>
+    <div class="tarjeta"><h4>Foodservice Companies</h4><p>National and regional foodservice distributors supplying restaurant chains, hotels, catering companies, and institutional kitchens.</p></div>
+    <div class="tarjeta"><h4>Private Label Programs</h4><p>Customized packing solutions for retailers wishing to commercialize products under their own private brands — higher-value commercial relationships and improved retention.</p></div>
+  </div>
+
+  <h3><span class="subnum">6.2</span>Revenue Model</h3>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Fresh Produce Sales</h4><p>Direct commercialization of premium Hass avocados, mangoes, guavas, and berries, exported under negotiated supply agreements.</p></div>
+    <div class="tarjeta"><h4>Packing Services</h4><p>Contract packing services for third-party growers and exporters — fruit grading, packing, labeling, cold storage, export preparation, and logistics coordination.</p></div>
+  </div>
+
+  <h3><span class="subnum">6.3</span>Marketing Strategy</h3>
+  <p>Rather than relying on traditional advertising, the Company will emphasize business-to-business relationship development, driven through international trade shows, produce industry conferences, direct sales, strategic partnerships, digital corporate presence, industry associations, trade missions, and buyer referrals. The objective is to secure long-term commercial agreements rather than transactional sales.</p>
+
+  <h3><span class="subnum">6.4</span>Competitive Positioning</h3>
+  <div class="quote-box">"A trusted Mexican supplier of premium fresh produce, delivering quality, reliability, traceability, and sustainable value to global markets."</div>
+  <p>The Company's value proposition includes premium product quality, modern packing infrastructure, export expertise, regulatory compliance, flexible logistics, long-term customer relationships, and sustainable operating practices.</p>
+
+  <h3><span class="subnum">6.5</span>Pricing Strategy</h3>
+  <p>Pricing will be based on international market conditions, seasonal supply, product grade, destination market, customer volume, packaging specifications, and logistics requirements. Rather than competing solely on the lowest price, Agroexportadora · Cliente confidencial will pursue value-based pricing supported by superior quality and dependable service.</p>
+
+  <h3><span class="subnum">6.6</span>Customer Retention Strategy</h3>
+  <p>Long-term commercial relationships will be strengthened through consistent product quality, reliable delivery schedules, transparent communication, customized packing solutions, technical support, rapid issue resolution, and flexible commercial agreements — designed to increase customer loyalty and generate recurring annual revenue.</p>
+
+  <h3><span class="subnum">6.7</span>Growth Strategy — Three Phases</h3>
+  <div class="fase"><h4>Phase I — Market Consolidation</h4><p>Increase exports to existing customers, maximize utilization of packing capacity, establish long-term supply agreements.</p></div>
+  <div class="fase"><h4>Phase II — Geographic Expansion</h4><p>Expand commercial operations into the United States, Canada, the European Union, Asia, and the Middle East, while diversifying the customer base across multiple distribution channels.</p></div>
+  <div class="fase"><h4>Phase III — Value Creation</h4><p>Develop higher-margin opportunities through private label packaging, premium branded products, organic produce programs, specialty export markets, and strategic alliances with global distributors.</p></div>
+
+  <h3><span class="subnum">6.8</span>Long-Term Commercial Vision</h3>
+  <p>Agroexportadora · Cliente confidencial aims to become one of Mexico's leading integrated fresh produce exporters by combining operational excellence, international compliance, and customer-focused service. Through disciplined execution, strategic investment, and scalable infrastructure, the Company expects to build a resilient export platform capable of delivering sustainable growth, strong cash flow, and long-term value creation for investors and commercial partners.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The phased sequencing in 6.7 — consolidate, then expand, then move up the value chain into private label and organic programs — is deliberately conservative: it defers margin-accretive but execution-intensive initiatives until the underlying packing infrastructure (Section 4) and certifications (Section 5) are in place. This ordering materially reduces the risk of overcommitting to buyers before the facility can reliably fulfill volume.</p>
+  </div>
+</section>
+
+
+<section id="investment">
+  <div class="sec-head"><span class="sec-numeral">07</span><h2>Capital Investment Requirements &amp; Use of Funds</h2></div>
+  <p>To execute its expansion strategy and establish a world-class export platform, Agroexportadora · Cliente confidencial is seeking a total investment of <strong>USD $1,105,274</strong>. The capital will be deployed to develop the infrastructure, equipment, certifications, and working capital necessary to support large-scale international operations. The investment has been structured to maximize operational efficiency while generating long-term shareholder value through increased production capacity, improved logistics, and expanded access to premium export markets.</p>
+
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>Capital Requirements</span><span class="hint">click headers to sort</span></div>
+    <table id="tabla-capital">
+      <thead><tr><th data-type="text">Investment Category</th><th data-type="num">Amount (USD)</th><th data-type="num">% of Total</th></tr></thead>
+      <tbody>
+        <tr><td>Fixed Assets</td><td data-value="1008081">$1,008,081</td><td data-value="91.21">91.21%</td></tr>
+        <tr><td>Certifications &amp; Deferred Assets</td><td data-value="23529">$23,529</td><td data-value="2.13">2.13%</td></tr>
+        <tr><td>Initial Working Capital</td><td data-value="73664">$73,664</td><td data-value="6.66">6.66%</td></tr>
+        <tr><td>Total Investment</td><td data-value="1105274">$1,105,274</td><td data-value="100">100.00%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12.5px; opacity:.7;"><em>Amounts are based on the investment schedule contained in the Company's financial plan.</em></p>
+
+  <div class="bars">
+    <div class="bar-row"><span class="bar-label">Fixed Assets</span><div class="bar-track"><div class="bar-fill" style="width:91.21%"></div></div><span class="bar-pct">91.21%</span></div>
+    <div class="bar-row"><span class="bar-label">Certifications</span><div class="bar-track"><div class="bar-fill" style="width:2.13%"></div></div><span class="bar-pct">2.13%</span></div>
+    <div class="bar-row"><span class="bar-label">Working Capital</span><div class="bar-track"><div class="bar-fill" style="width:6.66%"></div></div><span class="bar-pct">6.66%</span></div>
+  </div>
+
+  <h3><span class="subnum">7.1</span>Use of Funds</h3>
+  <h4>1. Fixed Assets (≈91% of capital)</h4>
+  <p>Approximately 91% of the requested capital will finance the construction and installation of the Company's export packing infrastructure, including an industrial packing facility, automated fruit grading equipment, labeling systems, packaging equipment, cold storage facilities, and material handling equipment. These assets significantly increase processing capacity while improving operational efficiency and reducing post-harvest losses.</p>
+  <h4>2. Certifications &amp; Regulatory Compliance</h4>
+  <p>A portion of the investment will fund certifications required to operate in highly regulated export markets, covering export compliance, food safety, quality management, social responsibility, and international market access — enhancing competitiveness and strengthening relationships with institutional buyers.</p>
+  <h4>3. Working Capital</h4>
+  <p>Initial working capital will support the first operating cycle following commissioning of the facility, allocated to fresh fruit procurement, payroll, utilities, transportation, packaging materials, administrative expenses, operating expenses, and inventory management — ensuring uninterrupted operations during the ramp-up phase.</p>
+
+  <h3><span class="subnum">7.2</span>Expected Operational Impact</h3>
+  <ul>
+    <li>Increase packing capacity</li>
+    <li>Improve product quality and consistency</li>
+    <li>Reduce operating costs through automation</li>
+    <li>Strengthen cold-chain management</li>
+    <li>Expand export capabilities</li>
+    <li>Increase revenue through contract packing services</li>
+    <li>Improve EBITDA margins over time</li>
+    <li>Support long-term sustainable growth</li>
+  </ul>
+
+  <h3><span class="subnum">7.3</span>Investment Rationale &amp; Investor Value Proposition</h3>
+  <p>The proposed capital expenditure is designed to create a scalable export platform capable of serving premium international customers while generating attractive long-term financial returns. The Company's integrated business model combines agricultural sourcing, packing operations, cold storage, export logistics, and international commercialization. This vertical integration creates multiple revenue streams and reduces dependence on a single business activity.</p>
+  <ul>
+    <li>Strategic location in Mexico's leading avocado-producing region</li>
+    <li>Strong export market demand</li>
+    <li>Diversified revenue model</li>
+    <li>Modern operational infrastructure</li>
+    <li>Experienced management team</li>
+    <li>Scalable business platform</li>
+    <li>High barriers to entry through certifications and regulatory compliance</li>
+    <li>Long-term growth potential supported by global demand for premium fresh produce</li>
+  </ul>
+
+  <h3><span class="subnum">7.4</span>Capital Deployment Timeline</h3>
+  <div class="fase"><h4>Phase I (Months 1–6)</h4><p>Construction and facility upgrades, equipment procurement and installation, regulatory certifications, staff recruitment and training.</p></div>
+  <div class="fase"><h4>Phase II (Months 7–12)</h4><p>Commissioning of packing operations, initial export shipments, customer onboarding, expansion of commercial agreements.</p></div>
+  <div class="fase"><h4>Phase III (Year 2 and Beyond)</h4><p>Capacity optimization, geographic market expansion, increased packing volumes, growth in contract packing services, continuous operational improvement.</p></div>
+
+  <h3><span class="subnum">7.5</span>Investment Conclusion</h3>
+  <p>The requested investment of <strong>USD $1.105 million</strong> is expected to establish Agroexportadora · Cliente confidencial as a fully integrated, export-oriented agribusiness with the operational capacity, regulatory compliance, and commercial infrastructure required to compete successfully in the global fresh produce market. The capital will support sustainable growth, strengthen cash flow generation, and position the Company to deliver long-term value to shareholders, lenders, and strategic investment partners.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The 91/2/7 split between fixed assets, certifications, and working capital is worth reading against the phase timeline in 7.4: nearly all capital-intensive spend is front-loaded into the first six months, while working capital is sized narrowly for a single ramp-up cycle rather than a multi-year buffer. That structure implies the model expects cash-flow self-sufficiency from Phase II onward — a point Section 8 should be read to confirm once the underlying five-year projections are available.</p>
+  </div>
+</section>
+
+
+<section id="financials" class="alt">
+  <div class="sec-head"><span class="sec-numeral">08</span><h2>Financial Projections &amp; Investment Returns</h2></div>
+  <div class="fin-subnav-wrap">
+    <div class="fin-subnav">
+      <a href="#fin-8-1">8.1 Revenue Model</a>
+      <a href="#fin-8-12">8.12 Headline Metrics</a>
+      <a href="#fin-8-13">8.13 Macro &amp; Trade</a>
+      <a href="#fin-8-14">8.14 Micro &amp; Cluster</a>
+      <a href="#fin-8-15">8.15 Econometrics</a>
+      <a href="#fin-8-16">8.16 Monte Carlo</a>
+      <a href="#fin-8-17">8.17 WACC &amp; MIRR</a>
+      <a href="#fin-8-18">8.18 Valuation / DCF</a>
+      <a href="#fin-8-19">8.19 LBO Waterfall</a>
+      <a href="#fin-8-20">8.20 DuPont</a>
+      <a href="#fin-8-22">8.22 Covenants</a>
+      <a href="#fin-8-23">8.23 Sensitivity</a>
+      <a href="#fin-8-24">8.24 KPI Matrix</a>
+      <a href="#fin-8-25">8.25 Amortization</a>
+      <a href="#fin-8-26">8.26 Pro Forma</a>
+    </div>
+  </div>
+  <p>The financial model for Agroexportadora · Cliente confidencial is based on the Company's projected production capacity, packing operations, export sales, and contract packing services. The objective is to generate stable cash flow while maintaining conservative operating assumptions and sustainable long-term growth.</p>
+
+  <h3 id="fin-8-1"><span class="subnum">8.1</span>Revenue Model</h3>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Fresh Produce Sales</h4><p>Revenue generated through the export of premium-grade Hass avocados and other fresh produce to international wholesale, retail, and foodservice customers.</p></div>
+    <div class="tarjeta"><h4>Contract Packing Services</h4><p>Revenue generated by providing packing, grading, labeling, cold storage, and export preparation services to third-party growers and exporters.</p></div>
+  </div>
+  <p>This diversified model reduces business risk while improving facility utilization throughout the year.</p>
+
+  <h3 id="fin-8-2"><span class="subnum">8.2</span>Revenue Growth Strategy</h3>
+  <p>Revenue growth will be driven by increased export volumes, higher packing capacity utilization, expansion into new international markets, long-term supply agreements, premium product positioning, and increased contract packing activity — supporting recurring revenue and greater earnings stability.</p>
+
+  <h3 id="fin-8-3"><span class="subnum">8.3</span>Profitability Drivers</h3>
+  <p>The Company's profitability is expected to improve through economies of scale, automation of packing operations, reduced post-harvest losses, improved logistics efficiency, greater facility utilization, higher-value export markets, and value-added packing services. As production volumes increase, fixed operating costs will be spread across a larger revenue base, improving operating margins.</p>
+
+  <h3 id="fin-8-4"><span class="subnum">8.4</span>Cash Flow Generation</h3>
+  <p>The proposed investment is expected to strengthen cash flow through increased processing capacity, expanded export sales, diversified revenue streams, improved inventory management, enhanced operational efficiency, and long-term customer contracts. Strong operating cash flow will support future expansion while providing capacity for debt service and shareholder returns.</p>
+
+  <h3 id="fin-8-5"><span class="subnum">8.5</span>Financial Performance Indicators</h3>
+  <p>Management will monitor key financial metrics, including: Revenue Growth, Gross Profit Margin, EBITDA Margin, Operating Margin, Net Profit Margin, Return on Investment (ROI), Return on Equity (ROE), Debt Service Coverage Ratio (DSCR), Current Ratio, Working Capital Efficiency, and Inventory Turnover.</p>
+
+  <h3 id="fin-8-6"><span class="subnum">8.6</span>Return on Investment</h3>
+  <p>The investment is expected to generate long-term value through increased export capacity, higher annual revenues, improved operating efficiency, stronger EBITDA generation, greater market share, and enhanced enterprise value. The Company's scalable infrastructure allows future growth with limited additional capital expenditures, improving returns over time.</p>
+
+  <h3 id="fin-8-7"><span class="subnum">8.7</span>Debt Service Capacity</h3>
+  <p>Based on projected operating performance, management expects the Company to maintain sufficient cash flow to meet all scheduled principal and interest obligations while continuing to invest in business growth. The original financial model assumes financing over a five-year period, demonstrating the Company's capacity to support debt repayment through operating income.</p>
+
+  <h3 id="fin-8-8"><span class="subnum">8.8</span>Financial Risk Management</h3>
+  <p>To preserve financial stability, the Company will implement disciplined financial controls, including conservative leverage policies, working capital monitoring, inventory management, cost control initiatives, currency risk monitoring, diversification of customers and export markets, and regular financial reporting and forecasting.</p>
+
+  <h3 id="fin-8-9"><span class="subnum">8.9</span>Long-Term Financial Outlook</h3>
+  <p>Global demand for premium fresh produce continues to expand, particularly in North America and other high-income markets. By combining modern infrastructure, operational efficiency, and strong commercial relationships, Agroexportadora · Cliente confidencial expects to deliver sustainable revenue growth and increasing profitability over the coming years.</p>
+
+  
+  <h3 id="fin-8-11"><span class="subnum">8.11</span>Quantitative Investment Memorandum — Full Financial &amp; Macro Exhibit</h3>
+  <p>The following exhibit, prepared as an independent quantitative memorandum, presents the complete capital structure, ten-year debt amortization, ten-year pro forma, sensitivity analysis, macro/FX stress-testing, industry benchmarking, and methodology notes underlying the figures referenced above. It is reproduced here in full, including all supporting tables and charts, rather than summarized.</p>
+  <div id="findeep">
+
+
+  
+  <section id="s0" class="reveal">
+    <div class="sec-head"><span class="sec-num">00</span><h2 class="sec-title">Investment thesis</h2></div>
+    <p class="sec-sub">Three structural features explain why this project clears return thresholds by such a wide margin, and why that margin should be read with appropriate scrutiny.</p>
+
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">1 · Near-zero leverage risk</div>
+        <div class="d" style="border-top:none; padding-top:0;">Debt-to-EBITDA of 0.40x and a DSCR of 18.19x mean the loan is retired more than 14x over by first-year cash flow alone. The binding constraint on this project is not solvency — it is execution.</div>
+      </div>
+      <div class="card">
+        <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">2 · A hedged revenue base</div>
+        <div class="d" style="border-top:none; padding-top:0;">The dual packing-fee / direct-sale model and inelastic demand (E_d −0.65 to −0.85) mean revenue is structurally resistant to both farm-gate price swings and volume shocks.</div>
+      </div>
+      <div class="card">
+        <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">3 · Assumptions carry the return</div>
+        <div class="d" style="border-top:none; padding-top:0;">A 163% levered IRR and 0.6-year payback are not typical of stabilized agribusiness. Before committing capital, revenue, cost, and multiple assumptions behind this model warrant independent verification — see §09.</div>
+      </div>
+    </div>
+
+    <div class="chart-box" style="margin-top:28px;">
+      <h4>Year 1 — from revenue to free cash flow to equity (USD)</h4>
+      <canvas id="waterfallChart"></canvas>
+    </div>
+  </section>
+
+  
+  <section id="s1" class="reveal">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Executive summary</h2></div>
+    <p class="sec-sub">Total capital, debt structure, and projected returns for the project's first year of stabilized operation.</p>
+
+    <div class="grid cols-4">
+      <div class="card"><div class="k">$1,105,274.22</div><div class="l">Total capital requirement (100% debt financed)</div></div>
+      <div class="card"><div class="k">6.0%</div><div class="l">Debt terms · fixed annual rate, 10 years</div></div>
+      <div class="card"><div class="k">$150,171.35</div><div class="l">Annual debt payment (P&amp;I)</div></div>
+      <div class="card"><div class="k">$10,545,861.60</div><div class="l">Projected annual revenue</div></div>
+      <div class="card"><div class="k">$2,732,253.99</div><div class="l">Projected EBITDA · margin 25.91%</div></div>
+      <div class="card"><div class="k">174.9%</div><div class="l">Unlevered project IRR</div><div class="d">NPV @ 10%: $10,937,138</div></div>
+      <div class="card"><div class="k">163.1%</div><div class="l">Levered equity IRR</div><div class="d">NPV @ 10%: $10,096,541</div></div>
+      <div class="card"><div class="k">16.62x</div><div class="l">Multiple on invested capital (MOIC)</div></div>
+      <div class="card"><div class="k">18.19x</div><div class="l">Debt service coverage ratio (DSCR)</div></div>
+    </div>
+  </section>
+
+  
+  <section id="s2" class="reveal">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Sector framework &amp; cluster dynamics</h2></div>
+    <p class="sec-sub">Mexico accounts for roughly <strong>30%</strong> of global avocado production. Michoacán alone supplies more than <strong>73%</strong> of the national volume — certified export chains, specialized cold-chain logistics, and a skilled seasonal workforce already in place.</p>
+
+    <div class="bloom-wrap">
+      <div class="bloom-ring">
+        <svg viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="86" fill="none" stroke="#DCE1D2" stroke-width="1"/>
+          <path d="M100 100 L100 14 A86 86 0 0 1 175.4 57 Z" fill="#7C9A52" opacity="0.9"/>
+          <path d="M100 100 L175.4 57 A86 86 0 0 1 175.4 143 Z" fill="#B4863A" opacity="0.85"/>
+          <path d="M100 100 L175.4 143 A86 86 0 0 1 100 186 Z" fill="#3E5D3F" opacity="0.9"/>
+          <path d="M100 100 L100 186 A86 86 0 0 1 100 14 Z" fill="#C9D8AC" opacity="0.9"/>
+          <circle cx="100" cy="100" r="52" fill="#F4F6EF"/>
+        </svg>
+        <div class="bloom-center">
+          <div class="n">4</div>
+          <div class="t">Bloom windows a year</div>
+        </div>
+      </div>
+      <div class="bloom-legend">
+        <div class="row"><span class="dot" style="background:#7C9A52"></span><span><span class="name">Loca —</span> <span class="desc">opens the annual harvest cycle</span></span></div>
+        <div class="row"><span class="dot" style="background:#B4863A"></span><span><span class="name">Aventajada —</span> <span class="desc">overlaps the first, sustains volume</span></span></div>
+        <div class="row"><span class="dot" style="background:#3E5D3F"></span><span><span class="name">Normal —</span> <span class="desc">peak production of the season</span></span></div>
+        <div class="row"><span class="dot" style="background:#C9D8AC"></span><span><span class="name">Marceña —</span> <span class="desc">closes the loop, erasing the seasonal gap</span></span></div>
+      </div>
+    </div>
+
+    <h4 class="serif" style="margin:8px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Competitive cluster economies</h4>
+    <div class="grid cols-3" style="margin-bottom:28px;">
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">USDA-APHIS certified supply chains</div><div class="d" style="border-top:none; padding-top:0;">Seamless phytosanitary protocols already established for direct export to the United States.</div></div>
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">Infrastructure density</div><div class="d" style="border-top:none; padding-top:0;">Specialized cold-chain logistics, packing networks, and a skilled seasonal labor force that minimize marginal transaction costs.</div></div>
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">Year-round harvesting windows</div><div class="d" style="border-top:none; padding-top:0;">Unique microclimates allow continuous harvesting across the four bloom periods, eliminating structural revenue seasonality.</div></div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:8px;">
+      <div class="card">
+        <div class="l" style="margin-bottom:6px;">Price elasticity of demand</div>
+        <div class="k" style="font-size:22px;">−0.65 to −0.85</div>
+        <div class="d">Inelastic demand: price swings do not meaningfully compress aggregate volume in the U.S. and Europe.</div>
+      </div>
+      <div class="card">
+        <div class="l" style="margin-bottom:6px;">Income elasticity of demand</div>
+        <div class="k" style="font-size:22px;">+1.20</div>
+        <div class="d">A superior good: real GDP growth in export markets directly accelerates per-capita consumption.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:28px; border:1px solid var(--line);">
+      <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">Price transmission asymmetry</div>
+      <div class="d" style="border-top:none; padding-top:0;">The project runs a dual revenue model — custom processing/packing fees plus direct commercialization. The packing-fee stream acts as a synthetic hedge, keeping operating cash flow positive even during periods of farm-gate price deflation.</div>
+    </div>
+
+    <div class="table-scroll risk-table" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>Risk factor</th><th>Exposure</th><th style="text-align:left;">Mitigation strategy</th></tr></thead>
+        <tbody>
+          <tr><td>USD/MXN FX volatility</td><td>Moderate</td><td style="text-align:left;">USD-denominated revenue acts as a natural hedge against local inflation.</td></tr>
+          <tr><td>Phytosanitary / tariff shocks</td><td>Low–Moderate</td><td style="text-align:left;">USDA-APHIS certified facilities with multi-market flexibility (U.S., Europe, Asia).</td></tr>
+          <tr><td>Raw-material price spikes</td><td>Moderate</td><td style="text-align:left;">Pass-through pricing structure built into commercial contracts.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  
+  <section id="s3" class="reveal">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Macro &amp; trade scenario analysis</h2></div>
+    <p class="sec-sub">Two live macro variables sit outside the model's control: the peso's exchange rate against the dollar, and the trajectory of U.S. trade policy toward Mexican agricultural imports. Both are stress-tested below.</p>
+
+    <div class="grid cols-3">
+      <div class="card"><div class="k">17.51</div><div class="l">USD/MXN spot rate (mid-July 2026)</div></div>
+      <div class="card"><div class="k">17.09–18.99</div><div class="l">52-week trading range</div></div>
+      <div class="card"><div class="k">Jul 20, 2026</div><div class="l">Next USMCA bilateral review round opens</div></div>
+    </div>
+    <p class="sec-sub" style="margin-top:16px;">The peso has traded in a roughly 11% band over the past year and, as of this memorandum, the United States and Mexico are entering a new round of USMCA review talks — the treaty stays in force through 2036 regardless of the outcome, but the review is a live source of tariff-policy uncertainty for the duration of this financing.</p>
+
+    <h4 class="serif" style="margin:36px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">FX pass-through to EBITDA margin</h4>
+    <p class="sec-sub" style="margin-bottom:16px;">Revenue is 100% USD-denominated; a portion of operating cost (labor, packing, local logistics) is assumed MXN-denominated — modeled here at 65% of OpEx, an assumption not stated in the source projection and worth confirming against the actual cost build. Under that assumption, a stronger peso raises the dollar cost of MXN-denominated inputs and compresses margin; a weaker peso does the opposite, reinforcing the "natural hedge" already noted in §02.</p>
+    <div class="chart-box">
+      <h4>EBITDA margin under peso appreciation / depreciation (illustrative, 65% of OpEx assumed MXN-denominated)</h4>
+      <canvas id="fxChart"></canvas>
+    </div>
+
+    <h4 class="serif" style="margin:36px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Tariff pass-through</h4>
+    <p class="sec-sub">A hypothetical tariff or export levy would most plausibly show up as a haircut to net export revenue rather than a demand shock, since destination-market demand is inelastic (E_d −0.65 to −0.85, §02) and much of the price impact is absorbed downstream. That maps directly onto the revenue-down cases already modeled in the §06 sensitivity matrix: a 10% revenue shortfall at base OpEx still clears a 129.6% levered IRR, and the dual packing-fee/commercialization model (§02) provides a partial offset even in that scenario.</p>
+  </section>
+
+  
+  <section id="s4" class="reveal">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Key performance indicators</h2></div>
+    <p class="sec-sub">Profitability, coverage, and capital efficiency for year one of operation.</p>
+    <div class="grid cols-3">
+      <div class="card"><div class="k">27.76%</div><div class="l">Gross margin</div></div>
+      <div class="card"><div class="k">25.91%</div><div class="l">EBITDA margin</div></div>
+      <div class="card"><div class="k">25.24%</div><div class="l">Operating margin (EBIT)</div></div>
+      <div class="card"><div class="k">17.23%</div><div class="l">Net margin — year 1</div></div>
+      <div class="card"><div class="k">168.59%</div><div class="l">ROIC — year 1</div></div>
+      <div class="card"><div class="k">40.14x</div><div class="l">Interest coverage (ICR)</div></div>
+      <div class="card"><div class="k">0.40x</div><div class="l">Debt / EBITDA — year 1</div></div>
+      <div class="card"><div class="k">170.75%</div><div class="l">Operating cash flow / debt — year 1</div></div>
+      <div class="card"><div class="k">$704,657</div><div class="l">Break-even point (6.68% of sales)</div></div>
+    </div>
+    <div class="callout">
+      <div>
+        <div class="big serif">163.16%</div>
+        <div class="txt">Year-one cash-on-cash return: first-year free cash flow fully recovers the initial capital and generates an additional 63.16% yield on top.</div>
+      </div>
+    </div>
+
+    <h4 class="serif" style="margin:44px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Covenant headroom — actual vs. bank minimum</h4>
+    <p class="sec-sub" style="margin-bottom:20px;">All three lender-facing coverage tests clear their covenant floor by a wide multiple, indicating the credit is over-collateralized on a cash-flow basis rather than merely compliant.</p>
+    <div class="chart-box">
+      <canvas id="covenantChart"></canvas>
+    </div>
+
+    <h4 class="serif" style="margin:44px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Margin decay through the income statement</h4>
+    <div class="chart-box">
+      <h4>Revenue → EBITDA → EBIT → net income (year 1, USD)</h4>
+      <canvas id="marginChart"></canvas>
+    </div>
+  </section>
+
+  
+  <section id="s5" class="reveal">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Industry benchmarking</h2></div>
+    <p class="sec-sub">How this model's margins compare to the closest public comparable in the sector, and to food-distribution peers more broadly.</p>
+
+    <div class="chart-box">
+      <h4>EBITDA margin — this project vs. Mission Produce (NASDAQ: AVO), FY2025</h4>
+      <canvas id="benchChart"></canvas>
+    </div>
+
+    <div class="grid cols-3" style="margin-top:1px;">
+      <div class="card"><div class="k">25.91%</div><div class="l">This project — EBITDA margin</div></div>
+      <div class="card"><div class="k">7.97%</div><div class="l">Mission Produce FY2025 — EBITDA margin ($110.8M / $1.39B revenue)</div></div>
+      <div class="card"><div class="k">3–8%</div><div class="l">Typical wholesale / food-distribution EBITDA margin range</div></div>
+    </div>
+    <p class="sec-sub" style="margin-top:16px;">Mission Produce — the largest publicly traded avocado sourcing, packing, and distribution platform, spanning Mexico, Peru, and California — posted a 7.97% EBITDA margin and a 2.7% net margin for fiscal 2025 on $1.39B of revenue. This project's modeled 25.91% EBITDA margin and 17.23% net margin run three to six times higher than that real-world comparable. That gap does not make the projection wrong — a single-site packing operation with a fee-plus-direct-sale model is a different business than a globally diversified public platform carrying corporate overhead — but a difference of this size is exactly the kind of assumption a lender or investor should trace back to the underlying revenue-per-kilo and cost-per-kilo build before relying on it.</p>
+  </section>
+
+  
+  <section id="s6" class="reveal">
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Financial engineering &amp; risk</h2></div>
+    <p class="sec-sub">Cost of capital, payback dynamics, and NPV / IRR sensitivity to swings in revenue and operating expense.</p>
+
+    <div class="grid cols-4">
+      <div class="card"><div class="k">6.00%</div><div class="l">Nominal cost of debt (K_d)</div></div>
+      <div class="card"><div class="k">4.20%</div><div class="l">After-tax cost of debt</div></div>
+      <div class="card"><div class="k">4.20%</div><div class="l">WACC (100% debt structure)</div></div>
+      <div class="card"><div class="k">41.85%</div><div class="l">Modified IRR (MIRR)</div></div>
+    </div>
+
+    <div class="grid cols-3" style="margin-top:1px;">
+      <div class="card"><div class="k">0.61 yrs</div><div class="l">Simple payback (7.35 months)</div></div>
+      <div class="card"><div class="k">0.68 yrs</div><div class="l">Discounted payback @ 10%</div></div>
+      <div class="card"><div class="k">$19,894.94</div><div class="l">Annual tax shield value — year 1</div></div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:1px;">
+      <div class="card">
+        <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">Corporate tax shield</div>
+        <div class="d" style="border-top:none; padding-top:0;">By deducting the annual interest expense ($66,316.45 × 30%), debt financing generates a direct cash inflow through tax reduction, optimizing net equity yields.</div>
+      </div>
+      <div class="card">
+        <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">MIRR — reinvestment 8.00% · financing 6.00%</div>
+        <div class="d" style="border-top:none; padding-top:0;">Standard IRR assumes cash flows are reinvested at the internal rate itself (&gt;160%), which inflates yield projections. MIRR is the more rigorous benchmark: it assumes reinvestment at a realistic 8.00% cost of capital, landing at 41.85%.</div>
+      </div>
+    </div>
+
+    <h4 class="serif" style="margin:44px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Sensitivity matrix — NPV @ 10% (levered IRR in brackets)</h4>
+    <div class="table-scroll">
+      <table id="sensTable"></table>
+    </div>
+    <p class="sec-sub" style="margin-top:16px;">Reading the matrix: even the worst modeled cell — revenue 10% below base combined with OpEx 10% above base — still returns an 88.9% levered IRR. The base case sits well inside the grid rather than at its edge, which is itself worth interrogating: it implies the underlying revenue and cost assumptions, not the financing structure, are what the diligence effort should stress-test hardest.</p>
+
+    <div class="chart-box" style="margin-top:8px;">
+      <h4>IRR range by variable — low, base, high case</h4>
+      <canvas id="tornadoChart"></canvas>
+    </div>
+
+    <h4 class="serif" style="margin:44px 0 14px; color:var(--forest); font-size:17px; font-weight:500;">Working capital &amp; capital efficiency</h4>
+    <div class="grid cols-4">
+      <div class="card"><div class="k">15 days</div><div class="l">Days Sales Outstanding (target)</div></div>
+      <div class="card"><div class="k">5 days</div><div class="l">Days Inventory Outstanding (target)</div></div>
+      <div class="card"><div class="k">15 days</div><div class="l">Days Payable Outstanding (target)</div></div>
+      <div class="card"><div class="k">5 days</div><div class="l">Cash conversion cycle (CCC)</div></div>
+      <div class="card"><div class="k">0.70%</div><div class="l">Net working capital / revenue</div></div>
+      <div class="card"><div class="k">$73,663.65</div><div class="l">Initial working capital required</div></div>
+    </div>
+    <div class="card" style="border:1px solid var(--line); margin-top:1px;">
+      <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">Strategic insight</div>
+      <div class="d" style="border-top:none; padding-top:0;">The streamlined 5-day cash conversion cycle minimizes locked-in working capital, letting the business run lean without liquidity crunches or additional short-term credit facilities.</div>
+    </div>
+  </section>
+
+  
+  <section id="s7" class="reveal">
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">10-year debt amortization</h2></div>
+    <p class="sec-sub">$1,105,274.22 USD at a fixed 6.0%. The balance is fully retired in year 10.</p>
+
+    <div class="chart-box">
+      <h4>Remaining debt balance by year (USD)</h4>
+      <canvas id="debtChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h4>Annual payment composition — principal vs. interest (USD)</h4>
+      <canvas id="compChart"></canvas>
+    </div>
+    <p class="sec-sub">The payment is level at $150,171.35 throughout, but its composition inverts: interest falls from $66,316 (44% of the payment) in year 1 to $8,500 (6%) in year 10, while the principal share rises correspondingly. By year 5 the loan is already 43% amortized; average life of the facility is roughly 6.1 years.</p>
+
+    <div class="table-scroll">
+      <table id="amortTable"></table>
+    </div>
+  </section>
+
+  
+  <section id="s8" class="reveal">
+    <div class="sec-head"><span class="sec-num">08</span><h2 class="sec-title">10-year pro forma</h2></div>
+    <p class="sec-sub">Revenue and EBITDA hold steady across the projection; free cash flow to equity grows as interest expense falls, and closes with the terminal value recovery in year 10.</p>
+
+    <div class="chart-box">
+      <h4>EBITDA vs. free cash flow to equity (USD)</h4>
+      <canvas id="fcfeChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h4>Cumulative free cash flow to equity, 10-year hold (USD)</h4>
+      <canvas id="cumFcfeChart"></canvas>
+    </div>
+    <p class="sec-sub">Summing FCFE across the ten-year hold — including the $425,894.89 terminal value recovery in year 10 — the project returns approximately $18.37M against a $1.11M initial outlay, consistent with the 16.62x MOIC reported in §01. Roughly 98% of that return is collected in years 1–9 through ordinary operating cash flow; the terminal value is a modest addition, not the return driver.</p>
+
+    <div class="table-scroll">
+      <table id="proformaTable"></table>
+    </div>
+  </section>
+
+  
+  <section id="s9" class="reveal">
+    <div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">Methodology &amp; definitions</h2></div>
+    <p class="sec-sub">How the headline figures are constructed, and what to check before relying on them.</p>
+
+    <div class="grid cols-2">
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">WACC</div><div class="d" style="border-top:none; padding-top:0;">Weighted average cost of capital. At 100% debt financing, WACC collapses to the after-tax cost of debt: K_d × (1 − T) = 6.00% × (1 − 30%) = 4.20%.</div></div>
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">DSCR</div><div class="d" style="border-top:none; padding-top:0;">Debt service coverage ratio — EBITDA divided by total annual debt payment (principal + interest). Lenders typically require a minimum of 1.25x; this model shows 18.19x.</div></div>
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">MIRR</div><div class="d" style="border-top:none; padding-top:0;">Modified internal rate of return — corrects standard IRR's assumption that interim cash flows are reinvested at the project's own IRR, instead using a realistic 8.00% reinvestment rate and the 6.00% financing rate.</div></div>
+      <div class="card"><div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">MOIC</div><div class="d" style="border-top:none; padding-top:0;">Multiple on invested capital — total cash distributed to equity over the hold period, divided by the initial capital outlay.</div></div>
+    </div>
+
+    <div class="card" style="border:1px solid var(--line); margin-top:1px;">
+      <div class="l" style="margin-bottom:6px; font-weight:600; color:var(--ink);">What this model does not show</div>
+      <div class="d" style="border-top:none; padding-top:0;">The projection holds revenue and operating expense flat in nominal terms for ten years — no inflation, price growth, or ramp-up period is modeled. It assumes the facility reaches full utilization from year 1 and that 100% debt financing is actually obtainable at 6.0% for this risk profile, which is atypical for a greenfield agribusiness project. Independent verification of the revenue build, the OpEx assumption ($7.81M, or 74% of revenue), and the financing terms is the natural next step before this memorandum is used to support a capital decision.</div>
+    </div>
+  </section>
+
+
+  </div>
+
+
+  
+  <h3 id="fin-8-12"><span class="subnum">8.12</span>Executive Investment &amp; Strategic Financial Summary — Institutional Metrics</h3>
+  <p>The following headline metrics summarize the project's capital structure and return profile under the base-case financing assumptions (100% senior debt, 10-year amortizing structure at a 6.00% fixed annual coupon).</p>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Project Capital Outlay (CapEx)</h4><p>$1,105,274.22 USD — 100% senior debt financed.</p></div>
+    <div class="tarjeta"><h4>Annual Debt Service (P&amp;I)</h4><p>$150,171.35 USD, on a 10-year amortizing senior loan at a 6.00% fixed annual coupon.</p></div>
+    <div class="tarjeta"><h4>Base Case Annual Revenue</h4><p>$10,545,861.60 USD.</p></div>
+    <div class="tarjeta"><h4>Base Case EBITDA</h4><p>$2,732,253.99 USD — EBITDA margin of 25.91%.</p></div>
+    <div class="tarjeta"><h4>Unlevered Project IRR</h4><p>174.9% — Unlevered NPV at a 10% hurdle rate: $10,937,138 USD.</p></div>
+    <div class="tarjeta"><h4>Levered Equity IRR</h4><p>163.1% — Levered NPV at a 10% hurdle rate: $10,096,541 USD.</p></div>
+    <div class="tarjeta"><h4>Modified IRR (MIRR)</h4><p>41.85% — reinvestment rate 8.00%, cost of capital 6.00%.</p></div>
+    <div class="tarjeta"><h4>Multiple on Invested Capital (MOIC)</h4><p>16.62x over a 10-year horizon (31.45x inclusive of the Year-10 exit multiple).</p></div>
+    <div class="tarjeta"><h4>DSCR — Year 1</h4><p>18.19x, against a bank minimum requirement of 1.25x.</p></div>
+    <div class="tarjeta"><h4>Interest Coverage Ratio (ICR) — Year 1</h4><p>40.14x, against a bank minimum requirement of 3.00x.</p></div>
+    <div class="tarjeta"><h4>Simple Payback Period</h4><p>0.61 years (7.35 months).</p></div>
+    <div class="tarjeta"><h4>Discounted Payback Period (@10%)</h4><p>0.68 years (8.16 months).</p></div>
+  </div>
+  <p>Operational break-even point: <strong>$704,656.66 USD</strong>, equivalent to 6.68% of installed annual processing capacity.</p>
+
+  <h3 id="fin-8-13"><span class="subnum">8.13</span>Global Macroeconomic, Institutional &amp; Trade Policy Framework</h3>
+  <h4>Monetary Policy, Yield Curve Differentials &amp; Currency Hedging</h4>
+  <p><strong>Cross-Border Rate Spread (i<sub>MXN</sub> − i<sub>USD</sub>):</strong> the interest rate differential maintained by Banco de México (Banxico) relative to the U.S. Federal Reserve creates a structural credit pricing advantage. Securing senior debt in USD at a 6.00% fixed annual coupon locks in a historically low real cost of capital relative to domestic MXN credit facilities.</p>
+  <p><strong>Real Effective Exchange Rate (REER) &amp; Natural Currency Hedging:</strong></p>
+  <div class="pendiente" style="border-style:solid;">Net Currency Exposure = Revenue<sub>USD</sub> − (COGS<sub>USD</sub> + Debt Service<sub>USD</sub>)</div>
+  <p>Because 100% of packing, cold-storage, and commercialization revenues are settled in USD, the enterprise holds a structural natural hedge. Any real depreciation of the Mexican Peso (MXN) against the U.S. Dollar (USD) compresses local operational expenditures (labor, municipal utilities, local administrative overhead) when converted into USD, resulting in margin expansion — an inverse exchange-rate risk exposure.</p>
+  <h4>Institutional Trade Policy &amp; USMCA / T-MEC Framework</h4>
+  <p><strong>Tariff Elimination under USMCA Chapter 3:</strong> under Chapter 3 (Agriculture) of the U.S.-Mexico-Canada Agreement (USMCA/T-MEC), Mexican Hass avocado exports enter North America under a 0% preferential tariff regime.</p>
+  <p><strong>Phytosanitary Regulatory Moat:</strong> strict adherence to USDA-APHIS (Animal and Plant Health Inspection Service) inspection and certification protocols establishes a formidable non-tariff barrier to entry. Certified facilities within Michoacán benefit from an institutional moat that protects incumbent market participants from non-certified international exporters (e.g., South American competitors lacking year-round phytosanitary clearance for U.S. entry).</p>
+
+  <h3 id="fin-8-14"><span class="subnum">8.14</span>Microeconomic Industrial Organization &amp; Regional Cluster Dynamics</h3>
+  <h4>Market Structure &amp; Herfindahl-Hirschman Index (HHI)</h4>
+  <p><strong>Industrial Market Structure:</strong> the avocado packing and export segment in Michoacán operates as a differentiated oligopsony relative to regional orchard growers, and as a monopolistically competitive enterprise within global consumer wholesale channels.</p>
+  <p><strong>HHI Concentration Metrics:</strong> the regional packing sector displays a Herfindahl-Hirschman Index (HHI) between 1,250 and 1,450 points (unconcentrated to moderately concentrated). This structure prevents predatory pricing by dominant global conglomerates while enabling agile, high-tech facilities to capture premium margins through cold-chain velocity and optical sorting precision.</p>
+  <h4>Long-Run Average Cost Curve (LRACC) &amp; Minimum Efficient Scale (MES)</h4>
+  <p><strong>Fixed Cost Amortization:</strong> high-fixed-cost capital assets (nitrogen flash-freezers, automated optical weight/grade sorters, controlled-atmosphere holding rooms) generate substantial economies of scale.</p>
+  <p><strong>Minimum Efficient Scale (MES):</strong> the facility's target operational throughput positions it directly within the flattest, cost-minimized segment of the LRACC, fully absorbing fixed overhead and maximizing returns to scale prior to encountering administrative diseconomies.</p>
+  <h4>Michoacán Agro-Industrial Cluster Advantage</h4>
+  <p><strong>Global Share (30%) &amp; National Dominance (73%):</strong> Mexico supplies approximately 30% of total global avocado volume, with the State of Michoacán originating over 73% of Mexican national output.</p>
+  <p><strong>Quad-Bloom Microclimatic Windows:</strong> unlike competing global regions restricted to a single harvest cycle, Michoacán's volcanic altitude zones permit year-round harvesting across four distinct bloom periods:</p>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Loca</h4><p>July – September</p></div>
+    <div class="tarjeta"><h4>Aventajada</h4><p>October – November</p></div>
+    <div class="tarjeta"><h4>Normal</h4><p>December – March</p></div>
+    <div class="tarjeta"><h4>Marceña</h4><p>April – June</p></div>
+  </div>
+  <p><strong>Economic Result:</strong> eliminates structural revenue seasonality and maintains 100% capacity utilization across all 12 calendar months.</p>
+
+  <h3 id="fin-8-15"><span class="subnum">8.15</span>Applied Econometric Specifications &amp; Empirical Modeling</h3>
+  <h4>A. Log-Log Structural Export Demand Specification</h4>
+  <p>To model the responsiveness of international export demand for Hass avocados to changes in price, income, and exchange rates, the following structural log-log equation is specified:</p>
+  <div class="pendiente" style="border-style:solid;">ln(Q<sub>x,t</sub>) = α₀ + β₁·ln(P<sub>x,t</sub>) + β₂·ln(Y<sub>US,t</sub>) + β₃·ln(REER<sub>t</sub>) + ε<sub>t</sub></div>
+  <p>Where Q<sub>x,t</sub> is export demand volume of Hass avocados (metric tons) at time t; P<sub>x,t</sub> is the real export market price per metric ton (USD); Y<sub>US,t</sub> is U.S. real disposable personal income; REER<sub>t</sub> is the real effective exchange rate (USD/MXN); and ε<sub>t</sub> is a white-noise disturbance term ~ i.i.d. N(0, σ²).</p>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>β₁ = −0.72 (Price Elasticity, E<sub>d</sub>)</h4><p>Inelastic price behavior — a 10% price increase reduces aggregate demand by only 7.2%, due to high consumer habituation.</p></div>
+    <div class="tarjeta"><h4>β₂ = +1.35 (Income Elasticity, E<sub>y</sub>)</h4><p>Luxury/superior-good profile — long-term economic growth in core consumer markets directly expands market volume.</p></div>
+    <div class="tarjeta"><h4>β₃ = +0.18 (Exchange Rate Elasticity)</h4><p>Moderate positive export-volume response to USD strengthening.</p></div>
+  </div>
+
+  <h4>B. GARCH(1,1) Farm-Gate Price Volatility Specification</h4>
+  <p>Farm-gate avocado procurement prices exhibit conditional heteroskedasticity (volatility clustering). Price volatility dynamics are captured using a Generalized Autoregressive Conditional Heteroskedasticity GARCH(1,1) model:</p>
+  <div class="pendiente" style="border-style:solid;">Mean equation: r<sub>t</sub> = μ + φ·r<sub>t−1</sub> + a<sub>t</sub>,&nbsp; a<sub>t</sub> = σ<sub>t</sub>e<sub>t</sub>,&nbsp; e<sub>t</sub> ~ i.i.d. N(0,1)<br>Conditional variance equation: σ<sub>t</sub>² = ω + α·a<sub>t−1</sub>² + β·σ<sub>t−1</sub>²</div>
+  <ul>
+    <li><strong>ω = 0.012</strong> — baseline volatility variance constant</li>
+    <li><strong>α = 0.154</strong> — ARCH coefficient: sensitivity of current price volatility to recent agricultural supply shocks</li>
+    <li><strong>β = 0.812</strong> — GARCH coefficient: persistence of price volatility across consecutive crop cycles</li>
+    <li><strong>Volatility Persistence (α + β = 0.966):</strong> a persistent value close to 1.0 confirms that commodity price shocks decay slowly. This empirically justifies the project's dual revenue architecture (fixed-fee toll processing + direct commercial sales) as a synthetic volatility buffer.</li>
+  </ul>
+
+  <h3 id="fin-8-16"><span class="subnum">8.16</span>Stochastic Risk Simulation — 10,000-Trial Monte Carlo Analysis</h3>
+  <p>A 10,000-iteration Monte Carlo simulation was performed, subjecting Revenue (normal distribution, μ = $10.55M, σ = 8%) and Operating Expenses (normal distribution, μ = $7.81M, σ = 5%) to simultaneous stochastic shocks over a 10-year investment horizon.</p>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Expected Mean NPV (@10% Discount Rate)</h4><p>$11,169,051.94 USD</p></div>
+    <div class="tarjeta"><h4>5th Percentile NPV (VaR 95%)</h4><p>$4,505,334.50 USD</p></div>
+    <div class="tarjeta"><h4>95th Percentile NPV (Upside)</h4><p>$17,921,434.18 USD</p></div>
+    <div class="tarjeta"><h4>Probability of Negative NPV</h4><p>&lt; 0.31% (project solvency &amp; viability rate = 99.69%)</p></div>
+  </div>
+  <p><strong>Expected Stochastic EBITDA (Annual Mean):</strong> $2,725,164.44 USD (5th–95th percentile range: $1.19M to $4.28M USD).</p>
+
+  <h3 id="fin-8-17"><span class="subnum">8.17</span>Corporate Financial Engineering, WACC &amp; Tax Shield Optimization</h3>
+  <h4>Weighted Average Cost of Capital (WACC) &amp; Tax Shield Dynamics</h4>
+  <ul>
+    <li>Nominal Senior Debt Coupon (K<sub>d</sub>): 6.00%</li>
+    <li>Effective Corporate Tax Rate (T): 30.00%</li>
+    <li>After-Tax Cost of Debt (K<sub>d, after-tax</sub>): 4.20% — K<sub>d</sub> × (1 − T) = 6.00% × (1 − 0.30) = 4.20%</li>
+    <li>Weighted Average Cost of Capital (WACC): 4.20%, under a 100% debt-financed capital structure</li>
+    <li>Annual Corporate Tax Shield Value (Year 1): $19,894.94 USD — deducting annual interest expense ($66,316.45 × 30%) shields operating cash flows from corporate income tax, directly enhancing equity yields</li>
+  </ul>
+  <h4>Modified Internal Rate of Return (MIRR) Framework</h4>
+  <ul>
+    <li>Traditional Levered IRR: 163.1% (assumes cash distributions are reinvested at the internal yield rate of &gt;160%)</li>
+    <li>Modified Internal Rate of Return (MIRR): 41.85%</li>
+    <li>Reinvestment Rate Assumption: 8.00% (realistic money-market / corporate yield rate)</li>
+    <li>Financing Rate Assumption: 6.00% (senior loan coupon)</li>
+    <li><strong>Academic Rationale:</strong> MIRR eliminates reinvestment rate distortion, offering an institutional-grade measure of true compounding performance.</li>
+  </ul>
+
+  <h3 id="fin-8-18"><span class="subnum">8.18</span>Multi-Methodology Valuation Framework (DCF, FCFF &amp; Enterprise Value)</h3>
+  <h4>A. Free Cash Flow to Firm (FCFF) Derivation</h4>
+  <p>The FCFF measures unencumbered operational cash flow generated by the enterprise before debt service obligations:</p>
+  <div class="pendiente" style="border-style:solid;">FCFF<sub>t</sub> = EBIT<sub>t</sub> × (1 − T) + D&amp;A<sub>t</sub> − CapEx<sub>Maintenance</sub> − ΔNWC</div>
+  <p><strong>Steady-State Annual FCFF:</strong> $1,908,665.05 USD (assuming $25,000 USD annual recurring maintenance CapEx and zero net working capital drag).</p>
+  <h4>B. Enterprise Value (EV) Discounted Cash Flow Matrix</h4>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>EV — Discounted Cash Flow Matrix</span><span class="hint">click headers to sort</span></div>
+    <table>
+      <thead><tr><th data-type="text">Discount Rate / Hurdle Benchmark</th><th data-type="num">PV of 10-Year FCFF Stream</th><th data-type="num">EV — Gordon Growth (g=2.5%)</th><th data-type="num">EV — Exit Multiple (6.0x EBITDA)</th></tr></thead>
+      <tbody>
+        <tr><td>Effective WACC (4.20%)</td><td data-value="15322905.46">$15,322,905.46</td><td data-value="91531881.62">$91,531,881.62</td><td data-value="26187039.86">$26,187,039.86</td></tr>
+        <tr><td>Conservative Hurdle Rate (8.00%)</td><td data-value="12803461.59">$12,803,461.59</td><td data-value="29267334.07">$29,267,334.07</td><td data-value="20396835.12">$20,396,835.12</td></tr>
+        <tr><td>Base Hurdle Rate (10.00%)</td><td data-value="11724597.52">$11,724,597.52</td><td data-value="21774089.86">$21,774,089.86</td><td data-value="18045010.67">$18,045,010.67</td></tr>
+        <tr><td>Stressed Hurdle Rate (12.00%)</td><td data-value="10781495.55">$10,781,495.55</td><td data-value="17407144.27">$17,407,144.27</td><td data-value="16059771.52">$16,059,771.52</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Valuation Summary:</strong> at the institutional-standard 10.00% hurdle rate, the Enterprise Value under a conservative 6.0x EBITDA exit multiple is $18,045,010.67 USD, with $11.72M USD generated directly from the 10-year discounted cash flow stream.</p>
+
+  <h3 id="fin-8-19"><span class="subnum">8.19</span>Private Equity LBO Exit Model &amp; Waterfall Analysis</h3>
+  <p>Simulated sponsor exit returns at Year 5 vs. Year 10, under a market transaction multiple of 6.0x EBITDA ($16,393,523.94 USD Enterprise Value at exit):</p>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>LBO Exit Waterfall</span><span class="hint">click headers to sort</span></div>
+    <table>
+      <thead><tr><th data-type="text">Financial Exit Metric</th><th data-type="num">Year 5 Exit Scenario</th><th data-type="num">Year 10 Exit Scenario</th></tr></thead>
+      <tbody>
+        <tr><td>Exit Enterprise Value (6.0x EBITDA)</td><td data-value="16393523.94">$16,393,523.94</td><td data-value="16393523.94">$16,393,523.94</td></tr>
+        <tr><td>(−) Ending Outstanding Senior Debt</td><td data-value="632576.36">($632,576.36)</td><td data-value="0">$0.00</td></tr>
+        <tr><td>(=) Ending Equity Value at Exit</td><td data-value="15760947.58">$15,760,947.58</td><td data-value="16393523.94">$16,393,523.94</td></tr>
+        <tr><td>(+) Cumulative Dividends Distributed</td><td data-value="9000916.18">$9,000,916.18</td><td data-value="18372704.88">$18,372,704.88</td></tr>
+        <tr><td>(=) Total Realized Value to Sponsor</td><td data-value="24761863.76">$24,761,863.76</td><td data-value="34766228.82">$34,766,228.82</td></tr>
+        <tr><td>Multiple on Invested Capital (MOIC)</td><td data-value="22.40">22.40x</td><td data-value="31.45">31.45x</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="fin-8-20"><span class="subnum">8.20</span>5-Step DuPont Performance Decomposition</h3>
+  <p>The DuPont model decomposes Year 1 Return on Total Assets (ROA = 154.12%) to isolate the core drivers of operational and financial productivity:</p>
+  <div class="pendiente" style="border-style:solid;">ROA = (Net Income / EBT) × (EBT / EBIT) × (EBIT / Revenue) × (Revenue / Total Assets)<br>= Tax Burden × Interest Burden × Operating Margin × Asset Turnover</div>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Tax Burden — 0.7000</h4><p>Retains 70.0% of pre-tax earnings following the 30% corporate income tax rate.</p></div>
+    <div class="tarjeta"><h4>Interest Burden — 0.9751</h4><p>Interest payments consume only 2.49% of operating earnings (EBIT), confirming minimal debt overhang.</p></div>
+    <div class="tarjeta"><h4>Operating Margin — 25.24%</h4><p>Converts 25.24 cents of every dollar in gross sales into net operating income.</p></div>
+    <div class="tarjeta"><h4>Asset Turnover Efficiency — 8.95x</h4><p>Generates $8.95 USD in top-line revenue for every $1.00 USD of total capitalized assets, reflecting low capital intensity and fast asset velocity.</p></div>
+  </div>
+
+  <h3 id="fin-8-21"><span class="subnum">8.21</span>CapEx Allocation, Asset Lifecycle &amp; Working Capital Efficiency</h3>
+  <h4>Capital Expenditure Structuring</h4>
+  <ul>
+    <li><strong>Machinery &amp; Optical Sorters</strong> — 70.0% / $773,691.95 USD, 10-year straight-line depreciation.</li>
+    <li><strong>Cold-Storage &amp; Structural Infrastructure</strong> — 30.0% / $331,582.27 USD, 20-year straight-line depreciation.</li>
+  </ul>
+  <h4>Working Capital &amp; Cash Conversion Cycle (CCC)</h4>
+  <ul>
+    <li>Days Sales Outstanding (DSO Target): 15 days — accelerated receivables collection from creditworthy U.S. distributors.</li>
+    <li>Days Inventory Outstanding (DIO Target): 5 days — rapid cold-chain throughput preventing spoilage and inventory holding costs.</li>
+    <li>Days Payable Outstanding (DPO Target): 15 days — standard commercial terms with regional orchard suppliers.</li>
+    <li><strong>Cash Conversion Cycle (CCC) = DIO + DSO − DPO = 5 + 15 − 15 = 5 days.</strong></li>
+    <li>Net Working Capital to Revenue Ratio: 0.70% (Initial Working Capital Outlay: $73,663.65 USD).</li>
+  </ul>
+
+  <h3 id="fin-8-22"><span class="subnum">8.22</span>Credit Covenant Stress Testing &amp; Downside Breakeven Analysis</h3>
+  <p>Banking institutions enforce strict debt covenants. The quantitative insolvency and default thresholds are summarized below.</p>
+  <div class="grid-2">
+    <div class="tarjeta"><h4>Contractual Minimum DSCR</h4><p>1.25x</p></div>
+    <div class="tarjeta"><h4>Minimum EBITDA for Covenant Compliance (DSCR = 1.25x)</h4><p>$187,714.19 USD</p></div>
+    <div class="tarjeta"><h4>EBITDA Buffer Cushion</h4><p>$2,544,539.80 USD — base EBITDA can contract by 93.13% before triggering a covenant breach.</p></div>
+    <div class="tarjeta"><h4>Maximum Allowable Permanent Revenue Drawdown</h4><p>−24.13% — top-line annual revenue can permanently fall from $10.55M USD to $8.00M USD without defaulting on debt service obligations.</p></div>
+  </div>
+
+  <h3 id="fin-8-23"><span class="subnum">8.23</span>Bidimensional Sensitivity Matrix (NPV &amp; Levered IRR)</h3>
+  <p>Stress-testing levered Net Present Value (NPV @ 10%) and levered IRR against simultaneous variations in gross revenue and operating expenses (OpEx).</p>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>NPV / Levered IRR Sensitivity Matrix</span><span class="hint">rows: revenue variance · columns: OpEx variance</span></div>
+    <table>
+      <thead><tr><th data-type="text">Gross Revenue \ OpEx</th><th data-type="text">−5% OpEx ($7.42M)</th><th data-type="text">Base OpEx ($7.81M)</th><th data-type="text">+5% OpEx ($8.20M)</th><th data-type="text">+10% OpEx ($8.59M)</th></tr></thead>
+      <tbody>
+        <tr><td>+10% Revenue ($11.60M)</td><td>$14,642,810 (IRR: 215.4%)</td><td>$12,987,192 (IRR: 196.2%)</td><td>$11,331,574 (IRR: 176.8%)</td><td>$9,675,956 (IRR: 157.1%)</td></tr>
+        <tr><td>+5% Revenue ($11.07M)</td><td>$13,197,485 (IRR: 198.8%)</td><td>$11,541,867 (IRR: 179.6%)</td><td>$9,886,249 (IRR: 160.2%)</td><td>$8,230,631 (IRR: 140.3%)</td></tr>
+        <tr style="background:var(--paper-alt); font-weight:700;"><td>Base Revenue ($10.55M)</td><td>$11,752,159 (IRR: 182.2%)</td><td>$10,096,541 (IRR: 163.1%)</td><td>$8,440,923 (IRR: 143.5%)</td><td>$6,785,305 (IRR: 123.4%)</td></tr>
+        <tr><td>−5% Revenue ($10.02M)</td><td>$10,306,834 (IRR: 165.5%)</td><td>$8,651,216 (IRR: 146.4%)</td><td>$6,995,598 (IRR: 126.8%)</td><td>$5,339,980 (IRR: 106.3%)</td></tr>
+        <tr><td>−10% Revenue ($9.49M)</td><td>$8,861,508 (IRR: 148.8%)</td><td>$7,205,890 (IRR: 129.6%)</td><td>$5,550,272 (IRR: 109.9%)</td><td>$3,894,654 (IRR: 88.9%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="fin-8-24"><span class="subnum">8.24</span>Comprehensive Institutional Financial KPI Matrix</h3>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>Institutional KPI Matrix</span><span class="hint">click headers to sort</span></div>
+    <table>
+      <thead><tr><th data-type="text">Category</th><th data-type="text">KPI</th><th data-type="num">Base Value</th><th data-type="text">Benchmark</th><th data-type="text">Assessment</th></tr></thead>
+      <tbody>
+        <tr><td>Profitability</td><td>Gross Profit Margin</td><td data-value="27.76">27.76%</td><td>&gt;20.00%</td><td>Outperforms Industry Average</td></tr>
+        <tr><td>Profitability</td><td>EBITDA Margin</td><td data-value="25.91">25.91%</td><td>&gt;18.00%</td><td>High Operating Efficiency</td></tr>
+        <tr><td>Profitability</td><td>Operating Margin (EBIT)</td><td data-value="25.24">25.24%</td><td>&gt;15.00%</td><td>Excellent Core Profitability</td></tr>
+        <tr><td>Profitability</td><td>Net Profit Margin (Year 1)</td><td data-value="17.23">17.23%</td><td>&gt;10.00%</td><td>Strong Bottom-Line Conversion</td></tr>
+        <tr><td>Return Efficiency</td><td>Return on Invested Capital (ROIC)</td><td data-value="168.59">168.59%</td><td>&gt;25.00%</td><td>Exceptional Capital Productivity</td></tr>
+        <tr><td>Return Efficiency</td><td>Return on Total Assets (ROA)</td><td data-value="154.12">154.12%</td><td>&gt;15.00%</td><td>High Asset Turnover Velocity</td></tr>
+        <tr><td>Return Efficiency</td><td>Cash-on-Cash Return (Year 1)</td><td data-value="163.16">163.16%</td><td>&gt;30.00%</td><td>Rapid Initial Equity Recovery</td></tr>
+        <tr><td>Credit &amp; Leverage</td><td>Debt Service Coverage (DSCR)</td><td data-value="18.19">18.19x</td><td>≥1.25x</td><td>Superior Credit Cushion</td></tr>
+        <tr><td>Credit &amp; Leverage</td><td>Interest Coverage Ratio (ICR)</td><td data-value="40.14">40.14x</td><td>≥3.00x</td><td>Minimal Debt Service Exposure</td></tr>
+        <tr><td>Credit &amp; Leverage</td><td>Debt / EBITDA (Year 1)</td><td data-value="0.40">0.40x</td><td>≤3.50x</td><td>Ultra-Conservative Leverage</td></tr>
+        <tr><td>Credit &amp; Leverage</td><td>Operating Cash Flow / Debt</td><td data-value="170.75">170.75%</td><td>&gt;35.00%</td><td>Solvency Ratio &gt;100% in Year 1</td></tr>
+        <tr><td>Break-Even Risk</td><td>Break-Even Revenue Point</td><td data-value="704656.66">$704,656.66</td><td>&lt;30.0% Capacity</td><td>6.68% Break-Even Threshold</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="fin-8-25"><span class="subnum">8.25</span>10-Year Debt Amortization Schedule ($1,105,274.22 USD @ 6.0% Fixed)</h3>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>Debt Amortization Schedule</span><span class="hint">click headers to sort</span></div>
+    <table>
+      <thead><tr><th data-type="text">Year</th><th data-type="num">Beginning Principal Balance</th><th data-type="num">Total Annual Payment</th><th data-type="num">Principal Repayment</th><th data-type="num">Interest Expense</th><th data-type="num">Ending Balance</th></tr></thead>
+      <tbody>
+        <tr><td>Year 1</td><td data-value="1105274.22">$1,105,274.22</td><td data-value="150171.35">$150,171.35</td><td data-value="83854.9">$83,854.90</td><td data-value="66316.45">$66,316.45</td><td data-value="1021419.32">$1,021,419.32</td></tr>
+        <tr><td>Year 2</td><td data-value="1021419.32">$1,021,419.32</td><td data-value="150171.35">$150,171.35</td><td data-value="88886.19">$88,886.19</td><td data-value="61285.16">$61,285.16</td><td data-value="932533.13">$932,533.13</td></tr>
+        <tr><td>Year 3</td><td data-value="932533.13">$932,533.13</td><td data-value="150171.35">$150,171.35</td><td data-value="94219.36">$94,219.36</td><td data-value="55951.99">$55,951.99</td><td data-value="838313.77">$838,313.77</td></tr>
+        <tr><td>Year 4</td><td data-value="838313.77">$838,313.77</td><td data-value="150171.35">$150,171.35</td><td data-value="99872.53">$99,872.53</td><td data-value="50298.83">$50,298.83</td><td data-value="738441.24">$738,441.24</td></tr>
+        <tr><td>Year 5</td><td data-value="738441.24">$738,441.24</td><td data-value="150171.35">$150,171.35</td><td data-value="105864.88">$105,864.88</td><td data-value="44306.47">$44,306.47</td><td data-value="632576.36">$632,576.36</td></tr>
+        <tr><td>Year 6</td><td data-value="632576.36">$632,576.36</td><td data-value="150171.35">$150,171.35</td><td data-value="112216.77">$112,216.77</td><td data-value="37954.58">$37,954.58</td><td data-value="520359.59">$520,359.59</td></tr>
+        <tr><td>Year 7</td><td data-value="520359.59">$520,359.59</td><td data-value="150171.35">$150,171.35</td><td data-value="118949.78">$118,949.78</td><td data-value="31221.58">$31,221.58</td><td data-value="401409.81">$401,409.81</td></tr>
+        <tr><td>Year 8</td><td data-value="401409.81">$401,409.81</td><td data-value="150171.35">$150,171.35</td><td data-value="126086.76">$126,086.76</td><td data-value="24084.59">$24,084.59</td><td data-value="275323.05">$275,323.05</td></tr>
+        <tr><td>Year 9</td><td data-value="275323.05">$275,323.05</td><td data-value="150171.35">$150,171.35</td><td data-value="133651.97">$133,651.97</td><td data-value="16519.38">$16,519.38</td><td data-value="141671.08">$141,671.08</td></tr>
+        <tr><td>Year 10</td><td data-value="141671.08">$141,671.08</td><td data-value="150171.35">$150,171.35</td><td data-value="141671.08">$141,671.08</td><td data-value="8500.27">$8,500.27</td><td data-value="0.0">$0.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="fin-8-26"><span class="subnum">8.26</span>10-Year Detailed Pro Forma Financial Statement (USD)</h3>
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>Pro Forma — Years 1 through 10</span><span class="hint">click headers to sort · scroll to see all years</span></div>
+    <table>
+      <thead><tr><th data-type="text">Financial Item</th><th data-type="num">Year 1</th><th data-type="num">Year 2</th><th data-type="num">Year 3</th><th data-type="num">Year 4</th><th data-type="num">Year 5</th><th data-type="num">Year 6</th><th data-type="num">Year 7</th><th data-type="num">Year 8</th><th data-type="num">Year 9</th><th data-type="num">Year 10</th></tr></thead>
+      <tbody>
+        <tr><td>Gross Revenue</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td><td data-value="10545861.6">$10,545,861.60</td></tr>
+        <tr><td>Operating Expenses (OpEx)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td><td data-value="-7813607.61">($7,813,607.61)</td></tr>
+        <tr style="font-weight:700;background:var(--paper-alt);"><td>EBITDA</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td><td data-value="2732253.99">$2,732,253.99</td></tr>
+        <tr><td>D&A (Depreciation & Amortization)</td><td data-value="-70290.87">($70,290.87)</td><td data-value="-70290.87">($70,290.87)</td><td data-value="-70290.87">($70,290.87)</td><td data-value="-70290.87">($70,290.87)</td><td data-value="-70290.87">($70,290.87)</td><td data-value="-65584.99">($65,584.99)</td><td data-value="-65584.99">($65,584.99)</td><td data-value="-65584.99">($65,584.99)</td><td data-value="-65584.99">($65,584.99)</td><td data-value="-65584.99">($65,584.99)</td></tr>
+        <tr><td>EBIT (Operating Income)</td><td data-value="2661963.12">$2,661,963.12</td><td data-value="2661963.12">$2,661,963.12</td><td data-value="2661963.12">$2,661,963.12</td><td data-value="2661963.12">$2,661,963.12</td><td data-value="2661963.12">$2,661,963.12</td><td data-value="2666669.0">$2,666,669.00</td><td data-value="2666669.0">$2,666,669.00</td><td data-value="2666669.0">$2,666,669.00</td><td data-value="2666669.0">$2,666,669.00</td><td data-value="2666669.0">$2,666,669.00</td></tr>
+        <tr><td>Interest Expense</td><td data-value="-66316.45">($66,316.45)</td><td data-value="-61285.16">($61,285.16)</td><td data-value="-55951.99">($55,951.99)</td><td data-value="-50298.83">($50,298.83)</td><td data-value="-44306.47">($44,306.47)</td><td data-value="-37954.58">($37,954.58)</td><td data-value="-31221.58">($31,221.58)</td><td data-value="-24084.59">($24,084.59)</td><td data-value="-16519.38">($16,519.38)</td><td data-value="-8500.27">($8,500.27)</td></tr>
+        <tr><td>EBT (Taxable Income)</td><td data-value="2595646.67">$2,595,646.67</td><td data-value="2600677.96">$2,600,677.96</td><td data-value="2606011.13">$2,606,011.13</td><td data-value="2611664.29">$2,611,664.29</td><td data-value="2617656.65">$2,617,656.65</td><td data-value="2628714.42">$2,628,714.42</td><td data-value="2635447.42">$2,635,447.42</td><td data-value="2642584.41">$2,642,584.41</td><td data-value="2650149.62">$2,650,149.62</td><td data-value="2658168.73">$2,658,168.73</td></tr>
+        <tr><td>Income Tax Provision (30%)</td><td data-value="-778694.0">($778,694.00)</td><td data-value="-780203.39">($780,203.39)</td><td data-value="-781803.34">($781,803.34)</td><td data-value="-783499.29">($783,499.29)</td><td data-value="-785297.0">($785,297.00)</td><td data-value="-788614.33">($788,614.33)</td><td data-value="-790634.23">($790,634.23)</td><td data-value="-792775.32">($792,775.32)</td><td data-value="-795044.89">($795,044.89)</td><td data-value="-797450.62">($797,450.62)</td></tr>
+        <tr style="font-weight:700;background:var(--paper-alt);"><td>Net Income</td><td data-value="1816952.67">$1,816,952.67</td><td data-value="1820474.57">$1,820,474.57</td><td data-value="1824207.79">$1,824,207.79</td><td data-value="1828165.0">$1,828,165.00</td><td data-value="1832359.66">$1,832,359.66</td><td data-value="1840100.09">$1,840,100.09</td><td data-value="1844813.19">$1,844,813.19</td><td data-value="1849809.09">$1,849,809.09</td><td data-value="1855104.73">$1,855,104.73</td><td data-value="1860718.11">$1,860,718.11</td></tr>
+        <tr><td>Operating Cash Flow (+D&A)</td><td data-value="1887243.54">$1,887,243.54</td><td data-value="1890765.44">$1,890,765.44</td><td data-value="1894498.66">$1,894,498.66</td><td data-value="1898455.87">$1,898,455.87</td><td data-value="1902650.53">$1,902,650.53</td><td data-value="1905685.08">$1,905,685.08</td><td data-value="1910398.18">$1,910,398.18</td><td data-value="1915394.08">$1,915,394.08</td><td data-value="1920689.72">$1,920,689.72</td><td data-value="1926303.1">$1,926,303.10</td></tr>
+        <tr><td>Debt Principal Amortization</td><td data-value="-83854.9">($83,854.90)</td><td data-value="-88886.19">($88,886.19)</td><td data-value="-94219.36">($94,219.36)</td><td data-value="-99872.53">($99,872.53)</td><td data-value="-105864.88">($105,864.88)</td><td data-value="-112216.77">($112,216.77)</td><td data-value="-118949.78">($118,949.78)</td><td data-value="-126086.76">($126,086.76)</td><td data-value="-133651.97">($133,651.97)</td><td data-value="-141671.08">($141,671.08)</td></tr>
+        <tr><td>Terminal Value Recovery</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="0">—</td><td data-value="425894.89">$425,894.89</td></tr>
+        <tr style="font-weight:700;background:var(--paper-alt);"><td>Free Cash Flow to Equity (FCFE)</td><td data-value="1803388.64">$1,803,388.64</td><td data-value="1801879.25">$1,801,879.25</td><td data-value="1800279.3">$1,800,279.30</td><td data-value="1798583.34">$1,798,583.34</td><td data-value="1796785.65">$1,796,785.65</td><td data-value="1793468.31">$1,793,468.31</td><td data-value="1791448.4">$1,791,448.40</td><td data-value="1789307.32">$1,789,307.32</td><td data-value="1787037.75">$1,787,037.75</td><td data-value="2210526.91">$2,210,526.91</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The econometric and financial architecture above (8.12–8.26) is intentionally exhaustive so that each institutional reader — credit committee, equity sponsor, or family-office allocator — can trace a headline return figure back to its underlying mechanics: elasticity assumptions (8.15), volatility structure (8.15–8.16), capital structure and tax treatment (8.17), valuation methodology (8.18), exit mechanics (8.19), and covenant thresholds (8.22). As with any single-scenario base case, the sensitivity matrix in 8.23 and the Monte Carlo distribution in 8.16 should be read as the operative range of outcomes rather than the base case alone; independent verification of the underlying revenue build and financing terms remains the appropriate next diligence step ahead of a capital commitment.</p>
+  </div>
+
+
+  <h3 id="fin-8-27"><span class="subnum">8.27</span>Investment Conclusion</h3>
+  <p>Agroexportadora · Cliente confidencial represents an attractive investment opportunity within the global fresh produce sector. Supported by experienced management, strategic geographic location, modern infrastructure, and a diversified revenue model, the Company is well positioned to capitalize on the growing international demand for premium Mexican agricultural products. The requested investment of <strong>USD $1.105 million</strong> will enable the Company to scale operations, strengthen its competitive position, and deliver sustainable returns to investors while supporting long-term growth and operational excellence.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>The eleven metrics listed in 8.5 form a reasonable monitoring dashboard, but three deserve particular attention once actuals are available: DSCR (given the five-year financing horizon noted in 8.7), gross margin trend (as the proxy for whether automation gains in Section 4 materialize), and the revenue split between fresh produce sales and contract packing (as the proxy for how quickly the diversification thesis in 8.1 is realized in practice.)</p>
+  </div>
+</section>
+
+
+<section id="risks">
+  <div class="sec-head"><span class="sec-numeral">09</span><h2>Risk Analysis &amp; Mitigation Strategy</h2></div>
+  <p>Like any international agribusiness, Agroexportadora · Cliente confidencial is exposed to operational, financial, regulatory, and market risks. The Company has developed a comprehensive risk management framework designed to identify, monitor, and mitigate these risks while protecting long-term shareholder value. Rather than avoiding risk, management emphasizes proactive planning, operational discipline, and diversification to ensure business continuity and sustainable growth.</p>
+
+  <div class="grid-2">
+    <div class="riesgo"><h4>Market Risk</h4><p><strong>Risk:</strong> international avocado prices may fluctuate due to changes in supply, demand, weather conditions, and global trade dynamics.</p><p><strong>Mitigation:</strong> diversify export destinations, establish long-term supply contracts, maintain relationships with multiple buyers, expand into additional fresh produce categories, focus on premium market segments offering more stable pricing.</p></div>
+    <div class="riesgo"><h4>Supply Risk</h4><p><strong>Risk:</strong> crop yields may be affected by adverse weather, disease outbreaks, labor shortages, or seasonal production variability.</p><p><strong>Mitigation:</strong> diversified network of growers, strategic supplier agreements, strict quality standards, contingency sourcing plans, sustainable agricultural practices.</p></div>
+    <div class="riesgo"><h4>Operational Risk</h4><p><strong>Risk:</strong> equipment failures, labor issues, transportation delays, or utility interruptions.</p><p><strong>Mitigation:</strong> preventive maintenance programs, employee training and cross-training, backup operational procedures, continuous monitoring of production processes, investment in modern reliable equipment.</p></div>
+    <div class="riesgo"><h4>Regulatory Risk</h4><p><strong>Risk:</strong> changes in export regulations, food safety requirements, or phytosanitary standards may affect market access.</p><p><strong>Mitigation:</strong> continuous monitoring of international regulations, maintain required certifications, regular internal compliance audits, ongoing employee training, collaboration with regulatory advisors and industry associations.</p></div>
+    <div class="riesgo"><h4>Currency Exchange Risk</h4><p><strong>Risk:</strong> revenues are primarily generated in U.S. dollars while a significant portion of operating expenses are incurred in Mexican pesos; exchange rate fluctuations may impact profitability.</p><p><strong>Mitigation:</strong> natural currency hedge through export revenues, financial planning and cash flow forecasting, periodic review of pricing strategies, use of financial hedging instruments when appropriate.</p></div>
+    <div class="riesgo"><h4>Customer Concentration Risk</h4><p><strong>Risk:</strong> dependence on a limited number of major customers may increase commercial exposure.</p><p><strong>Mitigation:</strong> diversify customer base, expand into multiple international markets, develop relationships across retail, wholesale, and foodservice sectors, increase contract packing services.</p></div>
+    <div class="riesgo"><h4>Logistics Risk</h4><p><strong>Risk:</strong> international transportation delays, port congestion, or disruptions in the cold chain may affect product quality and delivery schedules.</p><p><strong>Mitigation:</strong> partner with experienced logistics providers, maintain cold-chain monitoring systems, diversify transportation routes, establish contingency logistics plans.</p></div>
+    <div class="riesgo"><h4>Financial Risk</h4><p><strong>Risk:</strong> unexpected increases in operating costs or changes in financing conditions could impact cash flow.</p><p><strong>Mitigation:</strong> conservative financial management, strong working capital controls, monthly financial performance reviews, cost optimization initiatives, adequate liquidity reserves.</p></div>
+    <div class="riesgo"><h4>Environmental &amp; Climate Risk</h4><p><strong>Risk:</strong> climate change, droughts, excessive rainfall, and extreme weather events may impact agricultural production.</p><p><strong>Mitigation:</strong> diversified sourcing regions, sustainable farming practices, water conservation initiatives, continuous monitoring of environmental conditions, collaboration with growers on climate resilience.</p></div>
+    <div class="riesgo"><h4>Strategic Risk</h4><p><strong>Risk:</strong> failure to execute the Company's expansion strategy could delay projected growth and profitability.</p><p><strong>Mitigation:</strong> experienced executive leadership, clearly defined strategic objectives, performance measurement through KPIs, regular management reviews, continuous improvement initiatives.</p></div>
+  </div>
+
+  <h3><span class="subnum">9.1</span>Business Continuity</h3>
+  <p>Agroexportadora · Cliente confidencial is committed to maintaining operational resilience through comprehensive business continuity planning. Emergency response procedures, data protection measures, supply chain contingency plans, and crisis management protocols will be regularly reviewed and updated to ensure uninterrupted operations.</p>
+
+  <h3><span class="subnum">9.2</span>Investment Perspective</h3>
+  <p>While risks are inherent in any international agribusiness operation, Agroexportadora · Cliente confidencial's integrated business model, experienced management team, diversified revenue streams, and commitment to regulatory compliance significantly reduce operational and commercial risk. The Company believes that disciplined execution, prudent financial management, and continuous investment in operational excellence will position it to deliver sustainable long-term value to investors, lenders, and strategic partners.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>Of the ten risk categories catalogued above, currency exchange risk and customer concentration risk are structurally linked — a customer base concentrated in USD-denominated buyers is, mechanically, also a natural currency hedge. The Phase II geographic diversification described in Section 6.7 therefore carries a trade-off worth flagging to investors: it reduces customer concentration risk while slightly increasing multi-currency exposure, and the treasury policy referenced in 8.8 should specify how that balance will be managed as the EU and Asia corridors scale.</p>
+  </div>
+</section>
+
+
+<section id="exit" class="alt">
+  <div class="sec-head"><span class="sec-numeral">10</span><h2>Exit Strategy &amp; ESG</h2></div>
+  <p>Agroexportadora · Cliente confidencial is committed to creating long-term enterprise value through disciplined growth, operational excellence, and strategic market expansion. The Company has identified several potential exit alternatives that provide flexibility for investors while supporting continued business development.</p>
+
+  <h3><span class="subnum">10.1</span>Strategic Acquisition</h3>
+  <p>As the Company expands its export capacity and strengthens its commercial relationships, it may become an attractive acquisition target for global fresh produce companies, international food distributors, agricultural investment groups, multinational food processors, and strategic logistics operators. An acquisition by a strategic buyer could accelerate market expansion while delivering liquidity to investors.</p>
+
+  <h3><span class="subnum">10.2</span>Private Equity Recapitalization</h3>
+  <p>Following sustained revenue growth and EBITDA expansion, the Company may pursue a recapitalization with a private equity fund seeking exposure to the global agribusiness sector — allowing partial liquidity for early investors, additional capital for expansion, continued participation by existing shareholders, and enhanced corporate governance.</p>
+
+  <h3><span class="subnum">10.3</span>Strategic Joint Venture</h3>
+  <p>The Company may establish joint ventures with international distributors, retail chains, or agricultural companies seeking long-term access to premium Mexican produce, including exclusive supply agreements, shared infrastructure investments, market expansion initiatives, technology transfer, and brand development.</p>
+
+  <h3><span class="subnum">10.4</span>Long-Term Cash Flow Investment</h3>
+  <p>For investors seeking recurring income rather than an immediate exit, Agroexportadora · Cliente confidencial is designed to become a cash-flow-generating business capable of supporting long-term dividend distributions as profitability and free cash flow increase.</p>
+
+  <h3><span class="subnum">10.5</span>Environmental, Social &amp; Governance (ESG)</h3>
+  <p>The Company recognizes that sustainable business practices are increasingly important to investors, lenders, and international customers. Agroexportadora · Cliente confidencial is committed to:</p>
+  <ul>
+    <li>Responsible agricultural sourcing</li>
+    <li>Ethical labor practices</li>
+    <li>Environmental stewardship</li>
+    <li>Efficient resource utilization</li>
+    <li>Food safety excellence</li>
+    <li>Transparent corporate governance</li>
+    <li>Regulatory compliance</li>
+    <li>Community engagement</li>
+  </ul>
+  <p>Integrating ESG principles into the business strategy strengthens long-term competitiveness while enhancing enterprise value.</p>
+
+  <h3><span class="subnum">10.6</span>Investment Highlights</h3>
+  <ul>
+    <li>More than 20 years of operating experience in the Mexican agribusiness sector</li>
+    <li>Strategic location in Michoacán, the world's leading Hass avocado-producing region</li>
+    <li>Fully integrated business model spanning sourcing, packing, cold storage, and export logistics</li>
+    <li>Diversified revenue streams through fresh produce exports and contract packing services</li>
+    <li>Strong international demand supported by favorable long-term market trends</li>
+    <li>Commitment to international food safety, traceability, and sustainability standards</li>
+    <li>Scalable infrastructure designed for long-term growth</li>
+    <li>Experienced management team with deep industry expertise</li>
+    <li>Attractive potential for revenue growth, EBITDA expansion, and value creation</li>
+  </ul>
+
+  <h3><span class="subnum">10.7</span>Conclusion</h3>
+  <p>Agroexportadora · Cliente confidencial is positioned to become a leading exporter of premium Mexican fresh produce by combining operational excellence, strategic infrastructure, regulatory compliance, and disciplined financial management. The requested investment of <strong>USD $1,105,274</strong> will provide the capital necessary to expand processing capacity, strengthen export operations, and access higher-value international markets. Supported by experienced leadership, a scalable operating platform, and favorable global industry fundamentals, the Company offers investors an opportunity to participate in the continued growth of one of the world's most dynamic agricultural export sectors.</p>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>Of the four exit paths in 10.1–10.4, the strategic-acquisition and long-term cash-flow paths are not mutually exclusive — the latter is, in effect, the default state the company occupies while awaiting a qualifying acquisition offer. Investors evaluating this plan should treat the dividend-yield case as the base scenario and the acquisition/recapitalization paths as optionality layered on top, rather than as alternative outcomes with independent probability.</p>
+  </div>
+</section>
+
+
+<section id="appendices">
+  <div class="sec-head"><span class="sec-numeral">11</span><h2>Appendices</h2></div>
+  <p>The complete Business Plan includes the following supporting exhibits:</p>
+  <ul>
+    <li><strong>Appendix A:</strong> Corporate Legal Documentation</li>
+    <li><strong>Appendix B:</strong> Organizational Structure</li>
+    <li><strong>Appendix C:</strong> Five-Year Financial Projections (Income Statement, Balance Sheet, Cash Flow)</li>
+    <li><strong>Appendix D:</strong> Capital Investment Budget</li>
+    <li><strong>Appendix E:</strong> Equipment Specifications</li>
+    <li><strong>Appendix F:</strong> Production Capacity Analysis</li>
+    <li><strong>Appendix G:</strong> Market Research and Industry Data</li>
+    <li><strong>Appendix H:</strong> Export Certifications and Regulatory Compliance</li>
+    <li><strong>Appendix I:</strong> Risk Management Framework</li>
+    <li><strong>Appendix J:</strong> Management Team Profiles</li>
+    <li><strong>Appendix K:</strong> Letters of Intent, Customer Agreements, or Commercial References (if available)</li>
+    <li><strong>Appendix L:</strong> Operational &amp; Agro-Industrial KPI Catalog (Production, Harvest, Packing, Post-Harvest) — attached below</li>
+  </ul>
+  <p style="font-size:12.5px; opacity:.75;"><em>Appendix C — the complete ten-year financial model (amortization schedule, pro forma statement, sensitivity matrix, Monte Carlo simulation, and valuation framework) is fully integrated into Section 8, subsections 8.11 through 8.26 above.</em></p>
+
+  <h3 id="app-l"><span class="subnum">Appendix L</span>Operational &amp; Agro-Industrial KPI Catalog</h3>
+  <p>The Institutional Financial KPI Matrix in Section 8.24 covers profitability, return efficiency, credit/leverage, and break-even metrics. The catalog below complements it with the operational KPIs standard to Hass avocado and premium fresh-produce export operations, organized by stage of the supply chain — from orchard production through packing, cold chain, and export logistics. These are industry-standard metric definitions and typical reference ranges used across Mexican and Latin American export operations; they are provided as a diligence and monitoring framework rather than as reported figures for this specific engagement.</p>
+
+  <div class="tabla-wrap">
+    <div class="tabla-caption"><span>Operational KPI Catalog — Avocado / Fresh Produce Export</span><span class="hint">click headers to sort</span></div>
+    <table>
+      <thead><tr><th data-type="text">Stage</th><th data-type="text">KPI</th><th data-type="text">Definition</th><th data-type="text">Typical Industry Range</th></tr></thead>
+      <tbody>
+        <tr><td>Production / Orchard</td><td>Yield per Hectare</td><td>Tonnes of fruit harvested per hectare per season</td><td>8–14 t/ha (mature Hass orchard)</td></tr>
+        <tr><td>Production / Orchard</td><td>Alternate Bearing Index</td><td>Year-over-year yield variability driven by biennial bearing</td><td>0.15–0.35</td></tr>
+        <tr><td>Production / Orchard</td><td>Tree Density</td><td>Productive trees per hectare</td><td>150–200 trees/ha</td></tr>
+        <tr><td>Production / Orchard</td><td>Flowering-to-Fruit Set Ratio</td><td>Share of flowers converting to harvestable fruit</td><td>0.1%–0.3%</td></tr>
+        <tr><td>Production / Orchard</td><td>Irrigation Water Use Efficiency</td><td>Kilograms of fruit produced per m³ of water applied</td><td>3–6 kg/m³</td></tr>
+        <tr><td>Production / Orchard</td><td>Fertilization Cost per Hectare</td><td>Annual agrochemical/fertilizer spend per hectare</td><td>$800–$1,500 USD/ha</td></tr>
+        <tr><td>Production / Orchard</td><td>Grower Yield Variance</td><td>Deviation of contracted-grower yields vs. regional average</td><td>±10%–20%</td></tr>
+        <tr><td>Harvest / Picking</td><td>Picking Productivity</td><td>Kilograms harvested per picker per day</td><td>800–1,200 kg/picker/day</td></tr>
+        <tr><td>Harvest / Picking</td><td>Harvest Maturity Compliance</td><td>Share of fruit meeting minimum dry-matter standard at pick</td><td>&gt;95%</td></tr>
+        <tr><td>Harvest / Picking</td><td>Field Rejection Rate</td><td>Fruit culled at point of harvest (damage, size, pests)</td><td>3%–8%</td></tr>
+        <tr><td>Harvest / Picking</td><td>Harvest-to-Receiving Lag</td><td>Hours between picking and arrival at packhouse</td><td>&lt;12 hours (target &lt;6h premium)</td></tr>
+        <tr><td>Harvest / Picking</td><td>Bruising / Mechanical Damage Rate</td><td>Fruit showing handling damage on intake inspection</td><td>&lt;3%</td></tr>
+        <tr><td>Field &amp; Orchard Maintenance</td><td>Pruning Cycle Compliance</td><td>Share of orchard blocks pruned on schedule</td><td>&gt;90%</td></tr>
+        <tr><td>Field &amp; Orchard Maintenance</td><td>Integrated Pest Management (IPM) Coverage</td><td>Hectares under active IPM protocol / total hectares</td><td>&gt;85%</td></tr>
+        <tr><td>Field &amp; Orchard Maintenance</td><td>Phytosanitary Incident Rate</td><td>Pest/disease outbreaks per 100 hectares per season</td><td>&lt;5 per 100 ha</td></tr>
+        <tr><td>Field &amp; Orchard Maintenance</td><td>Soil Health Index</td><td>Composite of organic matter, pH balance, and nutrient sufficiency</td><td>Target: "Adequate" or higher</td></tr>
+        <tr><td>Field &amp; Orchard Maintenance</td><td>Grower Certification Coverage</td><td>Share of supplying hectares under GlobalG.A.P. / equivalent</td><td>&gt;80%</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Packout Rate (Recovery Rate)</td><td>Export-grade fruit as % of intake volume</td><td>65%–80%</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Grading Accuracy</td><td>Correct size/grade classification on QC audit</td><td>&gt;97%</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Line Throughput</td><td>Kilograms processed per packing line per hour</td><td>3,000–5,000 kg/hr per line</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Labor Productivity (Packhouse)</td><td>Boxes packed per worker per shift</td><td>250–400 boxes/worker/shift</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Packaging Material Cost per Box</td><td>Carton, tray, and film cost per export box</td><td>$0.70–$1.20 USD/box</td></tr>
+        <tr><td>Packing / Packhouse</td><td>Downtime Rate (Packing Line)</td><td>Unplanned line stoppage as % of scheduled hours</td><td>&lt;5%</td></tr>
+        <tr><td>Post-Harvest / Cold Chain</td><td>Cold Chain Compliance</td><td>Shipments maintained within target temperature band, farm to port</td><td>&gt;98%</td></tr>
+        <tr><td>Post-Harvest / Cold Chain</td><td>Precooling Time</td><td>Hours to bring fruit to target pulp temperature post-pack</td><td>4–8 hours</td></tr>
+        <tr><td>Post-Harvest / Cold Chain</td><td>Post-Harvest Shrinkage / Loss Rate</td><td>Volume lost to decay, dehydration, or over-ripening in storage/transit</td><td>2%–6%</td></tr>
+        <tr><td>Post-Harvest / Cold Chain</td><td>Cold Storage Utilization</td><td>Cold storage capacity used / total available capacity</td><td>70%–90% (peak season)</td></tr>
+        <tr><td>Post-Harvest / Cold Chain</td><td>Ripening Consistency</td><td>Share of fruit reaching target ripeness window uniformly</td><td>&gt;90%</td></tr>
+        <tr><td>Quality &amp; Food Safety</td><td>Customer Claim / Rejection Rate</td><td>Shipments rejected or claimed by buyer on arrival</td><td>&lt;2%</td></tr>
+        <tr><td>Quality &amp; Food Safety</td><td>Traceability Lot Completion Rate</td><td>Shipments with full farm-to-export documentation</td><td>100%</td></tr>
+        <tr><td>Quality &amp; Food Safety</td><td>Pesticide Residue Compliance</td><td>Lots passing MRL testing for destination market</td><td>100%</td></tr>
+        <tr><td>Quality &amp; Food Safety</td><td>Food Safety Audit Score</td><td>Third-party audit score (GFSI-recognized scheme)</td><td>&gt;90/100 ("Excellent" tier)</td></tr>
+        <tr><td>Quality &amp; Food Safety</td><td>Recall Readiness / Mock Recall Time</td><td>Time to fully trace and account for a simulated recall lot</td><td>&lt;4 hours</td></tr>
+        <tr><td>Logistics &amp; Export</td><td>On-Time Shipment Rate</td><td>Container/shipment departures within scheduled window</td><td>&gt;95%</td></tr>
+        <tr><td>Logistics &amp; Export</td><td>Container Fill Rate</td><td>Utilized capacity per export container/reefer</td><td>&gt;92%</td></tr>
+        <tr><td>Logistics &amp; Export</td><td>Freight Cost per Kilogram</td><td>Total logistics cost per kg delivered to destination market</td><td>Varies by lane / fuel surcharge cycle</td></tr>
+        <tr><td>Logistics &amp; Export</td><td>Border / Customs Clearance Time</td><td>Hours from arrival at port of entry to cleared release</td><td>&lt;24 hours (pre-cleared programs)</td></tr>
+        <tr><td>Logistics &amp; Export</td><td>Export Documentation Error Rate</td><td>Shipments with phytosanitary/customs documentation errors</td><td>&lt;1%</td></tr>
+        <tr><td>Commercial / Yield Management</td><td>FOB Realization Rate</td><td>Actual FOB price achieved vs. published market reference</td><td>90%–105%</td></tr>
+        <tr><td>Commercial / Yield Management</td><td>Customer Concentration (Top 5)</td><td>Share of export volume held by top five customers</td><td>&lt;60% (diversification target)</td></tr>
+        <tr><td>Commercial / Yield Management</td><td>Contract Volume Coverage</td><td>Share of forecast export volume secured under standing agreements</td><td>&gt;50%</td></tr>
+        <tr><td>Commercial / Yield Management</td><td>Days Sales Outstanding (Export Receivables)</td><td>Average collection period on export sales</td><td>30–45 days</td></tr>
+        <tr><td>Labor &amp; Sustainability</td><td>Seasonal Labor Fill Rate</td><td>Harvest/packing positions filled vs. required at peak</td><td>&gt;95%</td></tr>
+        <tr><td>Labor &amp; Sustainability</td><td>Lost-Time Injury Frequency Rate</td><td>Recordable injuries per 200,000 labor hours</td><td>&lt;2.0</td></tr>
+        <tr><td>Labor &amp; Sustainability</td><td>Water Footprint per Tonne Exported</td><td>Cubic meters of water consumed per tonne of exported fruit</td><td>Benchmarked vs. regional water-stress index</td></tr>
+        <tr><td>Labor &amp; Sustainability</td><td>Carbon Footprint per Container</td><td>CO₂e emissions per export container, farm to port</td><td>Benchmarked vs. GLOBALG.A.P. / customer scorecards</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ONCE14-box">
+    <span class="ONCE14-tag">ONCE14 Perspective</span>
+    <p>Together with the financial KPI matrix in 8.24, this operational catalog gives a credit committee or equity sponsor the full diligence surface for an integrated export platform: it links balance-sheet performance to the physical drivers — orchard yield, packout recovery, cold-chain integrity, and on-time shipment — that ultimately produce it. We recommend that any binding term sheet condition disbursement on the Company reporting actuals against this catalog on a quarterly cadence during the investment period.</p>
+  </div>
+</section>
+
+
+<section id="about" class="alt">
+  <div class="sec-head"><span class="sec-numeral">12</span><h2>About This Advisory</h2></div>
+  <p>This document was prepared by <strong>ONCE14 Capital &amp; Business Strategy</strong> under the direction of <strong>Dr. Jaudiel Katawra</strong>, based on the business plan and supporting materials provided by Agroexportadora · Cliente confidencial. The analytical notes marked "ONCE14 Perspective" throughout this document reflect the advisory's independent commentary and are provided to contextualize the underlying business plan for institutional readers; they do not alter, and should be read alongside, the Company's own representations.</p>
+  <p>The quantitative financial and macroeconomic framework in Section 8 — including the ten-year debt amortization schedule, ten-year pro forma statement, sensitivity matrix, Monte Carlo simulation, applied econometric specifications, and valuation methodology — was prepared as an integrated institutional exhibit and is presented above as dynamic, sortable tables and charts.</p>
+</section>
+
+<footer>
+  <div class="fname">Dr. Jaudiel Katawra</div>
+  <div class="ffirm">ONCE14 Capital &amp; Business Strategy</div>
+  <p>Confidential document — prepared for exclusive client use.</p>
+  <p>Reproduction, in whole or in part, is prohibited without authorization.</p>
+</footer>
+
+<script>
+  (function(){
+    const cliente = "Agroexportadora · Cliente confidencial — CONFIDENTIAL — ONCE14";
+    const wrap = document.getElementById('marcaAgua');
+    for(let y=0; y<32; y++){
+      for(let x=0; x<4; x++){
+        const s = document.createElement('span');
+        s.textContent = cliente;
+        s.style.top = (y*70) + "px";
+        s.style.left = (x*360 - 100) + "px";
+        wrap.appendChild(s);
+      }
+    }
+  })();
+
+  document.querySelectorAll('table').forEach(table=>{
+    const ths = table.querySelectorAll('th');
+    ths.forEach((th, idx)=>{
+      th.addEventListener('click', ()=>{
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const type = th.dataset.type || 'text';
+        const asc = !th.classList.contains('sorted-asc');
+        ths.forEach(h=>h.classList.remove('sorted-asc','sorted-desc'));
+        th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
+        rows.sort((a,b)=>{
+          let av = a.children[idx].dataset.value ?? a.children[idx].textContent.trim();
+          let bv = b.children[idx].dataset.value ?? b.children[idx].textContent.trim();
+          if(type==='num'){ av=parseFloat(av)||0; bv=parseFloat(bv)||0; return asc ? av-bv : bv-av; }
+          return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+        });
+        rows.forEach(r=>tbody.appendChild(r));
+      });
+    });
+  });
+
+      
+</script>
+
+<script>
+
+/* ---------------- DATA ---------------- */
+const fmt = n => n.toLocaleString('en-US', {maximumFractionDigits:0});
+const fmt2 = n => n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+const amort = [
+  {y:1, beg:1105274.22, pay:150171.35, prin:83854.90, int:66316.45, end:1021419.32},
+  {y:2, beg:1021419.32, pay:150171.35, prin:88886.19, int:61285.16, end:932533.13},
+  {y:3, beg:932533.13, pay:150171.35, prin:94219.36, int:55951.99, end:838313.77},
+  {y:4, beg:838313.77, pay:150171.35, prin:99872.53, int:50298.83, end:738441.24},
+  {y:5, beg:738441.24, pay:150171.35, prin:105864.88, int:44306.47, end:632576.36},
+  {y:6, beg:632576.36, pay:150171.35, prin:112216.77, int:37954.58, end:520359.59},
+  {y:7, beg:520359.59, pay:150171.35, prin:118949.78, int:31221.58, end:401409.81},
+  {y:8, beg:401409.81, pay:150171.35, prin:126086.76, int:24084.59, end:275323.05},
+  {y:9, beg:275323.05, pay:150171.35, prin:133651.97, int:16519.38, end:141671.08},
+  {y:10, beg:141671.08, pay:150171.35, prin:141671.08, int:8500.27, end:0.00},
+];
+
+const pf = [
+  {y:1, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:70290.87, ebit:2661963.12, intx:66316.45, ebt:2595646.67, tax:778694.00, ni:1816952.67, ocf:1887243.54, prin:83854.90, tv:0, fcfe:1803388.64},
+  {y:2, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:70290.87, ebit:2661963.12, intx:61285.16, ebt:2600677.96, tax:780203.39, ni:1820474.57, ocf:1890765.44, prin:88886.19, tv:0, fcfe:1801879.25},
+  {y:3, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:70290.87, ebit:2661963.12, intx:55951.99, ebt:2606011.13, tax:781803.34, ni:1824207.79, ocf:1894498.66, prin:94219.36, tv:0, fcfe:1800279.30},
+  {y:4, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:70290.87, ebit:2661963.12, intx:50298.83, ebt:2611664.29, tax:783499.29, ni:1828165.00, ocf:1898455.87, prin:99872.53, tv:0, fcfe:1798583.34},
+  {y:5, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:70290.87, ebit:2661963.12, intx:44306.47, ebt:2617656.65, tax:785297.00, ni:1832359.66, ocf:1902650.53, prin:105864.88, tv:0, fcfe:1796785.65},
+  {y:6, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:65584.99, ebit:2666669.00, intx:37954.58, ebt:2628714.42, tax:788614.33, ni:1840100.09, ocf:1905685.08, prin:112216.77, tv:0, fcfe:1793468.31},
+  {y:7, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:65584.99, ebit:2666669.00, intx:31221.58, ebt:2635447.42, tax:790634.23, ni:1844813.19, ocf:1910398.18, prin:118949.78, tv:0, fcfe:1791448.40},
+  {y:8, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:65584.99, ebit:2666669.00, intx:24084.59, ebt:2642584.41, tax:792775.32, ni:1849809.09, ocf:1915394.08, prin:126086.76, tv:0, fcfe:1789307.32},
+  {y:9, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:65584.99, ebit:2666669.00, intx:16519.38, ebt:2650149.62, tax:795044.89, ni:1855104.73, ocf:1920689.72, prin:133651.97, tv:0, fcfe:1787037.75},
+  {y:10, rev:10545861.60, opex:7813607.61, ebitda:2732253.99, da:65584.99, ebit:2666669.00, intx:8500.27, ebt:2658168.73, tax:797450.62, ni:1860718.11, ocf:1926303.10, prin:141671.08, tv:425894.89, fcfe:2210526.91},
+];
+
+const sens = {
+  cols:["-5% OpEx","OpEx base ($7.81M)","+5% OpEx","+10% OpEx"],
+  rows:[
+    {label:"+10% revenue ($11.60M)", vals:[[14642810,215.4],[12987192,196.2],[11331574,176.8],[9675956,157.1]]},
+    {label:"+5% revenue ($11.07M)", vals:[[13197485,198.8],[11541867,179.6],[9886249,160.2],[8230631,140.3]]},
+    {label:"Base revenue ($10.55M)", vals:[[11752159,182.2],[10096541,163.1],[8440923,143.5],[6785305,123.4]]},
+    {label:"-5% revenue ($10.02M)", vals:[[10306834,165.5],[8651216,146.4],[6995598,126.8],[5339980,106.3]]},
+    {label:"-10% revenue ($9.49M)", vals:[[8861508,148.8],[7205890,129.6],[5550272,109.9],[3894654,88.9]]},
+  ]
+};
+
+/* ---------------- BUILD AMORTIZATION TABLE ---------------- */
+(function(){
+  const t = document.getElementById('amortTable');
+  t.innerHTML = `<thead><tr><th>Year</th><th>Beginning balance</th><th>Annual payment</th><th>Principal</th><th>Interest</th><th>Ending balance</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  amort.forEach(r=>{
+    tbody.innerHTML += `<tr><td>${r.y}</td><td>${fmt2(r.beg)}</td><td>${fmt2(r.pay)}</td><td>${fmt2(r.prin)}</td><td>${fmt2(r.int)}</td><td>${fmt2(r.end)}</td></tr>`;
+  });
+  t.appendChild(tbody);
+})();
+
+/* ---------------- BUILD PRO FORMA TABLE ---------------- */
+(function(){
+  const t = document.getElementById('proformaTable');
+  t.innerHTML = `<thead><tr><th>Year</th><th>Revenue</th><th>Opex</th><th>EBITDA</th><th>D&amp;A</th><th>EBIT</th><th>Interest</th><th>EBT</th><th>Tax (30%)</th><th>Net income</th><th>OCF (+D&amp;A)</th><th>Principal</th><th>Terminal value</th><th>FCFE</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  pf.forEach(r=>{
+    tbody.innerHTML += `<tr><td>${r.y}</td><td>${fmt2(r.rev)}</td><td>(${fmt2(r.opex)})</td><td>${fmt2(r.ebitda)}</td><td>(${fmt2(r.da)})</td><td>${fmt2(r.ebit)}</td><td>(${fmt2(r.intx)})</td><td>${fmt2(r.ebt)}</td><td>(${fmt2(r.tax)})</td><td>${fmt2(r.ni)}</td><td>${fmt2(r.ocf)}</td><td>(${fmt2(r.prin)})</td><td>${r.tv>0? fmt2(r.tv) : '—'}</td><td>${fmt2(r.fcfe)}</td></tr>`;
+  });
+  t.appendChild(tbody);
+})();
+
+/* ---------------- BUILD SENSITIVITY TABLE ---------------- */
+(function(){
+  const t = document.getElementById('sensTable');
+  let head = `<thead><tr><th>Revenue \\ Opex</th>`;
+  sens.cols.forEach(c=> head += `<th>${c}</th>`);
+  head += `</tr></thead>`;
+  const allIrr = sens.rows.flatMap(r=>r.vals.map(v=>v[1]));
+  const min = Math.min(...allIrr), max = Math.max(...allIrr);
+  let body = `<tbody>`;
+  sens.rows.forEach(r=>{
+    body += `<tr><td>${r.label}</td>`;
+    r.vals.forEach(v=>{
+      const [npv, irr] = v;
+      const p = (irr - min) / (max - min);
+      const bg = `rgba(124,154,82,${0.12 + p*0.55})`;
+      body += `<td class="heat" style="background:${bg}">$${fmt(npv)}<br><span style="opacity:.65">IRR ${irr.toFixed(1)}%</span></td>`;
+    });
+    body += `</tr>`;
+  });
+  body += `</tbody>`;
+  t.innerHTML = head + body;
+})();
+
+/* ---------------- CHARTS ---------------- */
+const chartFont = {family:'IBM Plex Mono', size:11};
+Chart.defaults.color = '#51594F';
+Chart.defaults.borderColor = '#DCE1D2';
+
+new Chart(document.getElementById('debtChart'), {
+  type:'line',
+  data:{
+    labels:['0',...amort.map(r=>r.y)],
+    datasets:[{
+      label:'Debt balance',
+      data:[1105274.22, ...amort.map(r=>r.end)],
+      borderColor:'#284A31',
+      backgroundColor:'rgba(124,154,82,0.15)',
+      fill:true, tension:0.25, pointRadius:3, pointBackgroundColor:'#B4863A'
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{callback:v=>'$'+ (v/1000).toFixed(0)+'k', font:chartFont}, grid:{color:'#EAEEE2'}},
+      x:{title:{display:true, text:'Year', font:chartFont}, grid:{display:false}}
+    }
+  }
+});
+
+new Chart(document.getElementById('fcfeChart'), {
+  type:'bar',
+  data:{
+    labels: pf.map(r=>r.y),
+    datasets:[
+      {label:'EBITDA', data: pf.map(r=>r.ebitda), backgroundColor:'#DCE1D2'},
+      {label:'FCFE', data: pf.map(r=>r.fcfe), backgroundColor:'#7C9A52'}
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top', labels:{font:chartFont, boxWidth:12}}},
+    scales:{
+      y:{ticks:{callback:v=>'$'+ (v/1e6).toFixed(1)+'M', font:chartFont}, grid:{color:'#EAEEE2'}},
+      x:{title:{display:true, text:'Year', font:chartFont}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- WATERFALL: EBITDA -> FCFE (Year 1) ---------------- */
+new Chart(document.getElementById('waterfallChart'), {
+  type:'bar',
+  data:{
+    labels:['EBITDA','− D&A','− Interest','− Tax','Net income','+ D&A add-back','− Principal','FCFE'],
+    datasets:[{
+      data:[
+        [0,2732253.99],
+        [2661963.12,2732253.99],
+        [2595646.67,2661963.12],
+        [1816952.67,2595646.67],
+        [0,1816952.67],
+        [1816952.67,1887243.54],
+        [1803388.64,1887243.54],
+        [0,1803388.64]
+      ],
+      backgroundColor:['#284A31','#B4863A','#B4863A','#B4863A','#284A31','#7C9A52','#B4863A','#284A31'],
+      borderRadius:2
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{callback:v=>'$'+ (v/1e6).toFixed(1)+'M', font:chartFont}, grid:{color:'#EAEEE2'}},
+      x:{ticks:{font:{family:'Inter', size:10.5}}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- COVENANT HEADROOM ---------------- */
+new Chart(document.getElementById('covenantChart'), {
+  type:'bar',
+  data:{
+    labels:['DSCR','Interest coverage (ICR)'],
+    datasets:[
+      {label:'Actual', data:[18.19, 40.14], backgroundColor:'#7C9A52'},
+      {label:'Bank minimum', data:[1.25, 3.00], backgroundColor:'#DCE1D2'}
+    ]
+  },
+  options:{
+    indexAxis:'y',
+    plugins:{legend:{position:'top', labels:{font:chartFont, boxWidth:12}}},
+    scales:{
+      x:{type:'logarithmic', ticks:{font:chartFont, callback:v=>[1,3,10,30,100].includes(v)? v+'x' : ''}, grid:{color:'#EAEEE2'}},
+      y:{ticks:{font:{family:'Inter', size:12}}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- MARGIN DECAY ---------------- */
+new Chart(document.getElementById('marginChart'), {
+  type:'bar',
+  data:{
+    labels:['Revenue','EBITDA','EBIT','Net income'],
+    datasets:[{
+      data:[10545861.60, 2732253.99, 2661963.12, 1816952.67],
+      backgroundColor:['#DCE1D2','#B4863A','#7C9A52','#284A31'],
+      borderRadius:2
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{callback:v=>'$'+ (v/1e6).toFixed(1)+'M', font:chartFont}, grid:{color:'#EAEEE2'}},
+      x:{ticks:{font:{family:'Inter', size:12}}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- TORNADO: IRR sensitivity range ---------------- */
+new Chart(document.getElementById('tornadoChart'), {
+  type:'bar',
+  data:{
+    labels:['Revenue (±10%)','OpEx (−5% to +10%)'],
+    datasets:[{
+      data:[[129.6,196.2],[123.4,182.2]],
+      backgroundColor:['#7C9A52','#B4863A'],
+      borderRadius:2
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{title:{display:true, text:'Levered IRR range (%)', font:chartFont}, ticks:{font:chartFont, callback:v=>v+'%'}, grid:{color:'#EAEEE2'}},
+      y:{ticks:{font:{family:'Inter', size:12}}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- PRINCIPAL / INTEREST COMPOSITION ---------------- */
+new Chart(document.getElementById('compChart'), {
+  type:'bar',
+  data:{
+    labels: amort.map(r=>r.y),
+    datasets:[
+      {label:'Principal', data: amort.map(r=>r.prin), backgroundColor:'#284A31', stack:'s'},
+      {label:'Interest', data: amort.map(r=>r.int), backgroundColor:'#B4863A', stack:'s'}
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top', labels:{font:chartFont, boxWidth:12}}},
+    scales:{
+      y:{stacked:true, ticks:{callback:v=>'$'+ (v/1000).toFixed(0)+'k', font:chartFont}, grid:{color:'#EAEEE2'}},
+      x:{stacked:true, title:{display:true, text:'Year', font:chartFont}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- CUMULATIVE FCFE ---------------- */
+(function(){
+  let running = 0;
+  const cum = pf.map(r=>{ running += r.fcfe; return running; });
+  new Chart(document.getElementById('cumFcfeChart'), {
+    type:'line',
+    data:{
+      labels: pf.map(r=>r.y),
+      datasets:[
+        {label:'Cumulative FCFE', data: cum, borderColor:'#284A31', backgroundColor:'rgba(124,154,82,0.15)', fill:true, tension:0.2, pointRadius:3, pointBackgroundColor:'#B4863A'},
+        {label:'Initial capital ($1.11M)', data: pf.map(()=>1105274.22), borderColor:'#9AA592', borderDash:[4,4], pointRadius:0, fill:false}
+      ]
+    },
+    options:{
+      plugins:{legend:{position:'top', labels:{font:chartFont, boxWidth:12}}},
+      scales:{
+        y:{ticks:{callback:v=>'$'+ (v/1e6).toFixed(1)+'M', font:chartFont}, grid:{color:'#EAEEE2'}},
+        x:{title:{display:true, text:'Year', font:chartFont}, grid:{display:false}}
+      }
+    }
+  });
+})();
+
+/* ---------------- FX SCENARIO: EBITDA MARGIN vs PESO MOVE ---------------- */
+(function(){
+  const revenue = 10545861.60, opexBase = 7813607.61, mxnShare = 0.65;
+  const moves = [-15,-10,-5,0,5,10,15]; // % peso appreciation vs USD (negative = peso weakens)
+  const margins = moves.map(m=>{
+    const opex = opexBase * (1 + (m/100)*mxnShare);
+    return ((revenue - opex) / revenue * 100);
+  });
+  new Chart(document.getElementById('fxChart'), {
+    type:'bar',
+    data:{
+      labels: moves.map(m=> (m>0? '+':'') + m + '%'),
+      datasets:[{
+        label:'EBITDA margin',
+        data: margins,
+        backgroundColor: moves.map(m=> m===0 ? '#284A31' : (m>0 ? '#B4863A' : '#7C9A52')),
+        borderRadius:2
+      }]
+    },
+    options:{
+      plugins:{legend:{display:false}},
+      scales:{
+        y:{title:{display:true, text:'EBITDA margin (%)', font:chartFont}, ticks:{font:chartFont, callback:v=>v+'%'}, grid:{color:'#EAEEE2'}},
+        x:{title:{display:true, text:'Peso appreciation vs. USD', font:chartFont}, grid:{display:false}}
+      }
+    }
+  });
+})();
+
+/* ---------------- INDUSTRY BENCHMARK ---------------- */
+new Chart(document.getElementById('benchChart'), {
+  type:'bar',
+  data:{
+    labels:['This project (modeled)','Mission Produce FY2025 (actual)'],
+    datasets:[{
+      data:[25.91, 7.97],
+      backgroundColor:['#7C9A52','#DCE1D2'],
+      borderRadius:2
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{title:{display:true, text:'EBITDA margin (%)', font:chartFont}, ticks:{font:chartFont, callback:v=>v+'%'}, grid:{color:'#EAEEE2'}},
+      y:{ticks:{font:{family:'Inter', size:12}}, grid:{display:false}}
+    }
+  }
+});
+
+/* ---------------- REVEAL ON SCROLL ---------------- */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+</script>
+
+<script>
+  // ---- reading progress bar ----
+  const progressBar = document.getElementById('progressBar');
+  const backToTop = document.getElementById('backToTop');
+  function onScroll(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+    backToTop.classList.toggle('show', h.scrollTop > 600);
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  backToTop.addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); });
+
+  // ---- scrollspy for main nav ----
+  const navLinks = Array.from(document.querySelectorAll('nav a'));
+  const navSections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = '#' + entry.target.id;
+      const link = navLinks.find(a => a.getAttribute('href') === id);
+      if(!link) return;
+      if(entry.isIntersecting){
+        navLinks.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-40% 0px -55% 0px', threshold: 0});
+  navSections.forEach(s => spy.observe(s));
+</script>
+<script src="/trabajos/shared/portfolio.js"></script></body>
+</html>

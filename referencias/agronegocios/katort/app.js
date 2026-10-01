@@ -5,7 +5,7 @@ const t=(es,en)=>english?en:es,n=(v,d=0)=>new Intl.NumberFormat(english?'en-US':
 document.querySelectorAll('[data-en]').forEach(e=>e.dataset.es=e.innerHTML);
 // Keep the reporting period available in every section of the reference.
 document.querySelector('.notice').after(document.querySelector('.toolbar'));
-const referenceLink=document.createElement('a');referenceLink.href='../';referenceLink.className='link';referenceLink.dataset.en='← Agribusiness reference';referenceLink.dataset.es='← Referencia de agronegocios';referenceLink.textContent=referenceLink.dataset.es;document.querySelector('footer').append(referenceLink);
+const referenceLink=document.createElement('a');referenceLink.href='caso/';referenceLink.className='link';referenceLink.dataset.en='← Katort example case';referenceLink.dataset.es='← Caso de ejemplo Katort';referenceLink.textContent=referenceLink.dataset.es;document.querySelector('footer').append(referenceLink);
 const publicNote=document.querySelector('.rail-note');publicNote.dataset.en='Public fictional reference. Never upload confidential client information here.';publicNote.dataset.es='Referencia pública ficticia. Nunca subir aquí información confidencial de clientes.';publicNote.textContent=publicNote.dataset.es;
 function rows(id,data){$(id).innerHTML=data.map(([label,value])=>`<div class="metric-row"><span>${label}</span><strong>${value}</strong></div>`).join('');}
 function kpis(id,data){$(id).innerHTML=data.map(([label,value,detail])=>`<article class="kpi"><span>${label}</span><strong>${value}</strong><small>${detail||''}</small></article>`).join('');}
@@ -45,6 +45,6 @@ function download(name,text,type){const url=URL.createObjectURL(new Blob([text],
 function csv(data){const keys=Object.keys(data[0]);return '\ufeff'+[keys,...data.map(r=>keys.map(k=>r[k]))].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');}
 $('export-model').onclick=()=>download('katort-FICTICIO-modelo.json',JSON.stringify({fictional:true,warning:'SIMULATED DATA / DATOS FICTICIOS',base:M.BASE,periods:M.periods,selected:M.calculate(year),scenario:scenario(),assets:M.assets,rentals:M.rentals,balance2025:M.balance,monthly:M.monthly(M.calculate(year)),debt:M.debtSchedule(),projections:M.projections(),facts:M.facts},null,2),'application/json');$('export-debt').onclick=()=>download('katort-FICTICIO-deuda.csv',csv(M.debtSchedule()),'text/csv;charset=utf-8');$('export-monthly').onclick=()=>download('katort-FICTICIO-caja-'+year+'.csv',csv(M.monthly(M.calculate(year))),'text/csv;charset=utf-8');
 function preparePrint(){document.querySelectorAll('.view').forEach(e=>e.hidden=false);charts.forEach((v,id)=>draw(id));}function finishPrint(){route();}window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',finishPrint);const print=()=>{preparePrint();requestAnimationFrame(()=>window.print());};$('print').onclick=print;$('export-report').onclick=print;window.addEventListener('hashchange',route);window.addEventListener('resize',()=>charts.forEach((v,id)=>draw(id)));render();route();
+$('lang').addEventListener('click',()=>{referenceLink.href='caso/?lang='+(english?'en':'es');});
 if(new URLSearchParams(location.search).get('lang')==='en')$('lang').click();
 })();
-
